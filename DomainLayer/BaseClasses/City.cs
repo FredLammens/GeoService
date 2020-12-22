@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DomainLayer.BaseClasses
 {
-    class City
+    public class City
     {
         public int Id { get; set; }
         public string Name { get; set; }

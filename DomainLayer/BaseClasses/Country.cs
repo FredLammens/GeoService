@@ -4,15 +4,18 @@ using System.Text;
 
 namespace DomainLayer.BaseClasses
 {
-    class Country
+    public class Country
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string Name { get; set; }
         public long Population { get; set; }
         public double Surface { get; set; }
-        public Continent Continent { get; set; }
+        public Continent Continent { get => Continent; set { value.AddCountry(this); Continent = value; } }
         public River River { get; set; }
         public List<City> Cities { get; set; }
         public List<City> Capitals { get; set; }
+
+
+
     }
 }
