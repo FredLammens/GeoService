@@ -8,11 +8,11 @@ namespace DomainLayer.BaseClasses
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public long Population { get; set; }
+        public uint Population { get; set; }
         public Country BelongsTo { get; set; }
         public Country CapitalFrom { get; set; }
 
-        public City( string name, long population, Country belongsTo)
+        public City( string name, uint population, Country belongsTo)
         {
             Name = name;
             Population = population;

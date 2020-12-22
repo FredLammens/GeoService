@@ -9,7 +9,7 @@ namespace DomainLayer.BaseClasses
     {
         public int Id { get; set; }
         public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
-        public long Population
+        public uint Population
         {
             get => Population;
             private set
@@ -43,7 +43,7 @@ namespace DomainLayer.BaseClasses
         public IReadOnlyList<City> Cities => _cities.AsReadOnly();
         public IReadOnlyList<City> Capitals => _capitals.AsReadOnly();
 
-        public Country(string name, long population, float surface, Continent continent)
+        public Country(string name, uint population, float surface, Continent continent)
         {
             Name = name;
             Population = population;
@@ -67,7 +67,7 @@ namespace DomainLayer.BaseClasses
                     throw new ArgumentException($"river is not in {Name}");
             }
         }
-        public void AddCity(string name, long population) 
+        public void AddCity(string name, uint population) 
         {
             City city = new City(name, population, this);
             bool inCities = _cities.Contains(city);
@@ -87,7 +87,7 @@ namespace DomainLayer.BaseClasses
                     throw new ArgumentException($"river is not in {Name}");
             }
         }
-        public void AddCaptial(string name, long population) 
+        public void AddCaptial(string name, uint population) 
         {
             City capital = new City(name, population, this)
             {
@@ -119,9 +119,9 @@ namespace DomainLayer.BaseClasses
         }
         #region Checkfunctions
 
-        private bool IsPopulationCorrect(long populationToAdd) 
+        private bool IsPopulationCorrect(uint populationToAdd) 
         {
-            long populationCalculated = populationToAdd;
+            uint populationCalculated = populationToAdd;
             _cities.ForEach(city => populationCalculated += city.Population);
             return (Population >= populationCalculated);
         }

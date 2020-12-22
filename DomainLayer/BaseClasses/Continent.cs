@@ -9,7 +9,7 @@ namespace DomainLayer.BaseClasses
     {
         public int Id { get; set; }
         public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
-        public long Population { get => Population; 
+        public uint Population { get => Population; 
             private set 
             {
                 if (value < 0) 
@@ -47,7 +47,7 @@ namespace DomainLayer.BaseClasses
                 Population = 0;
         }
 
-        public void AddCountry(string name, long population, float surface ) 
+        public void AddCountry(string name, uint population, float surface ) 
         {
             Country country = new Country(name, population, surface, this);
             bool inCountries = _countries.Contains(country);
