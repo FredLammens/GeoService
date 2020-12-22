@@ -28,7 +28,13 @@ namespace DomainLayer.BaseClasses
                 Surface = value;
             }
         }
-        public Continent Continent { get; set; }
+        public Continent Continent { get => Continent; 
+            set { 
+                if (value == null) throw new ArgumentException("continent can't be null.");
+                Continent = value;
+                //Todo: aanpassing aan continent moet doorgevoerd worden aan population continent
+            } 
+        }
 
         private List<River> _rivers = new List<River>();
         private List<City> _cities = new List<City>();
@@ -44,7 +50,6 @@ namespace DomainLayer.BaseClasses
             Surface = surface;
             Continent = continent;
         }
-        //Todo: fix river like city 
         internal void AddRiver(River river) 
         {
             CheckRiverForNull(river);

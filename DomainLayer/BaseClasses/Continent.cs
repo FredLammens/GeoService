@@ -66,6 +66,7 @@ namespace DomainLayer.BaseClasses
             if (removed == false) 
             {
                     throw new ArgumentException($"country is not in {Name}");
+                //TODO: population aanpassen.
             }
         }
 
