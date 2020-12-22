@@ -59,6 +59,9 @@ namespace DomainLayer.BaseClasses
         public void DeleteCountry(Country country)
         {
             CheckCountryForNull(country);
+            bool hasCities = (country.Cities.Count > 0);
+            if (hasCities)
+                throw new Exception($"{country.Name} still has cities.");
             bool removed = _countries.Remove(country);
             if (removed == false) 
             {
@@ -71,5 +74,18 @@ namespace DomainLayer.BaseClasses
             if (country == null)
                 throw new ArgumentException("country can't be null");
         }
+
+        #region equals
+        public override bool Equals(object obj)
+        {
+            return obj is Continent continent &&
+                   Name == continent.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name);
+        }
+        #endregion
     }
 }

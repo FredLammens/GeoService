@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DomainLayer.BaseClasses
@@ -61,13 +62,15 @@ namespace DomainLayer.BaseClasses
                     throw new ArgumentException($"river is not in {Name}");
             }
         }
-        //Todo: 
         public void AddCity(string name, long population) 
         {
             City city = new City(name, population, this);
             bool inCities = _cities.Contains(city);
             if (inCities)
                 throw new ArgumentException("city already added.");
+            //check population city doesnt exceed population country
+            if (!IsPopulationCorrect(population))
+                throw new Exception("population would exceed country's population.");
             _cities.Add(city);
         }
         public void RemoveCity(City city) 
@@ -79,14 +82,26 @@ namespace DomainLayer.BaseClasses
                     throw new ArgumentException($"river is not in {Name}");
             }
         }
-        //Todo: add capitalfrom
         public void AddCaptial(string name, long population) 
         {
-            City city = new City(name, population, this);
-            bool inCapitals = _capitals.Contains(city);
+            City capital = new City(name, population, this)
+            {
+                CapitalFrom = this
+            };
+            bool inCapitals = _capitals.Contains(capital);
             if (inCapitals)
                 throw new ArgumentException("capital already added.");
-            _capitals.Add(city);
+            _capitals.Add(capital);
+            //addToCities
+            City toAddToCities = _cities.SingleOrDefault(city => city == capital);
+            if (toAddToCities != null)
+            {
+                toAddToCities.CapitalFrom = this;
+            }
+            else 
+            {
+                _cities.Add(toAddToCities);
+            }
         }
         public void RemoveCapital(City city) 
         {
@@ -98,6 +113,13 @@ namespace DomainLayer.BaseClasses
             }
         }
         #region Checkfunctions
+
+        private bool IsPopulationCorrect(long populationToAdd) 
+        {
+            long populationCalculated = populationToAdd;
+            _cities.ForEach(city => populationCalculated += city.Population);
+            return (Population >= populationCalculated);
+        }
         private void CheckRiverForNull(River river) 
         {
             if (river == null)
@@ -108,21 +130,21 @@ namespace DomainLayer.BaseClasses
             if (city == null)
                 throw new ArgumentException("city can't be null");
         }
-        #endregion
-        #region equals
+
         public override bool Equals(object obj)
         {
             return obj is Country country &&
-                   Name == country.Name &&
-                   Population == country.Population &&
-                   Surface == country.Surface &&
-                   EqualityComparer<Continent>.Default.Equals(Continent, country.Continent);
+                   Name == country.Name;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Population, Surface, Continent);
+            return HashCode.Combine(Name);
         }
+        #endregion
+        #region equals
+
+
         #endregion
     }
 }
