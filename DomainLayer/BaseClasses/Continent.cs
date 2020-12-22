@@ -7,25 +7,34 @@ namespace DomainLayer.BaseClasses
 {
     public class Continent
     {
-        public int Id { get; private set; }
-        public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty"); Name = value; } }
-        public long Population { get; private set; }
+        public int Id { get; set; }
+        public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
+        public long Population { get => Population; 
+            private set 
+            {
+                if (value < 0) 
+                    throw new ArgumentException("Population can't be negative.");
+                Population = value;
+            } 
+        }
         private List<Country> _countries = new List<Country>();
         public IReadOnlyList<Country> Countries { get => _countries.AsReadOnly();}
 
         public Continent() { }
-        public Continent(int id, string name)
+        public Continent(string name)
         {
-            Id = id;
             Name = name;
             SetPopulation();
         }
 
-        public Continent(int id, string name, List<Country> countries)
+        public Continent(string name, List<Country> countries)
         {
-            Id = id;
             Name = name;
-            AddCountries(countries);
+            bool allCountriesFromContinent = countries.TrueForAll(country => country.Continent == this);
+            if (allCountriesFromContinent == false)
+                throw new ArgumentException($"All countries need to be of continent: {name}");
+            _countries = countries;
+            SetPopulation();
         }
 
         private void SetPopulation() 
@@ -37,30 +46,30 @@ namespace DomainLayer.BaseClasses
             else
                 Population = 0;
         }
-        private void AddCountries(List<Country> countries) 
-        {
-            _countries = countries;
-            SetPopulation();
-        }
 
-        public void AddCountry(Country country) 
+        public void AddCountry(string name, long population, double surface ) 
         {
-            if (country.Equals(null))
-                throw new ArgumentException("country can't be null");
+            Country country = new Country(name, population, surface, this);
+            bool inCountries = _countries.Contains(country);
+            if (inCountries)
+                throw new ArgumentException("country already added.");
             _countries.Add(country);
-            Population += country.Population;
+            Population += population;
         }
         public void DeleteCountry(Country country)
         {
-            Country toDelete = GetCountry(country);
-            _countries.Remove(country);
+            CheckCountryForNull(country);
+            bool removed = _countries.Remove(country);
+            if (removed == false) 
+            {
+                    throw new ArgumentException($"country is not in {Name}");
+            }
         }
-        public Country GetCountry(Country country) 
+
+        private void CheckCountryForNull(Country country) 
         {
-            Country returnCountry = _countries.Where(c => c.Id == country.Id).SingleOrDefault();
-            if (country.Equals(null))
-                throw new ArgumentException($"country is not in {Name}");
-            return returnCountry;
+            if (country == null)
+                throw new ArgumentException("country can't be null");
         }
     }
 }
