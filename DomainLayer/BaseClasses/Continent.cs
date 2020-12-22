@@ -9,7 +9,7 @@ namespace DomainLayer.BaseClasses
     {
         public int Id { get; set; }
         public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
-        public uint Population { get => Population; 
+        public ulong Population { get => Population; 
             private set 
             {
                 if (value < 0) 
