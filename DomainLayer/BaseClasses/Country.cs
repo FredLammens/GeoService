@@ -19,7 +19,7 @@ namespace DomainLayer.BaseClasses
                 Population = value;
             }
         }
-        public double Surface {
+        public float Surface {
             get => Surface;
             private set 
             {
@@ -43,7 +43,7 @@ namespace DomainLayer.BaseClasses
         public IReadOnlyList<City> Cities => _cities.AsReadOnly();
         public IReadOnlyList<City> Capitals => _capitals.AsReadOnly();
 
-        public Country(string name, long population, double surface, Continent continent)
+        public Country(string name, long population, float surface, Continent continent)
         {
             Name = name;
             Population = population;

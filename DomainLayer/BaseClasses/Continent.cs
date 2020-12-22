@@ -47,7 +47,7 @@ namespace DomainLayer.BaseClasses
                 Population = 0;
         }
 
-        public void AddCountry(string name, long population, double surface ) 
+        public void AddCountry(string name, long population, float surface ) 
         {
             Country country = new Country(name, population, surface, this);
             bool inCountries = _countries.Contains(country);
