@@ -44,22 +44,24 @@ namespace DomainLayer.BaseClasses
             Continent = continent;
         }
         //Todo: fix river like city 
-        public void AddRiver(River river) 
+        internal void AddRiver(River river) 
         {
             CheckRiverForNull(river);
-            //Todo: set river country to this
+            bool isInRivers = _rivers.Contains(river);
+            if (isInRivers)
+                throw new ArgumentException($"{river.Name} is already in {this.Name}");
             _rivers.Add(river);
         }
         public void RemoveRiver(River river) 
         {
             CheckRiverForNull(river);
-            bool removed = _rivers.Remove(river);
-            if (removed == false)
+            bool isRemoved = _rivers.Remove(river);
+            if (!isRemoved)
             {
                     throw new ArgumentException($"river is not in {Name}");
             }
         }
-
+        //Todo: 
         public void AddCity(string name, long population) 
         {
             City city = new City(name, population, this);
@@ -71,15 +73,30 @@ namespace DomainLayer.BaseClasses
         public void RemoveCity(City city) 
         {
             CheckCityForNull(city);
-            bool removed = _cities.Remove(city);
-            if (removed == false)
+            bool isRemoved = _cities.Remove(city);
+            if (!isRemoved)
             {
                     throw new ArgumentException($"river is not in {Name}");
             }
         }
-        //Todo: Capital
-        public void AddCaptial(City city) { }
-        public void RemoveCapital(City city) { }
+        //Todo: add capitalfrom
+        public void AddCaptial(string name, long population) 
+        {
+            City city = new City(name, population, this);
+            bool inCapitals = _capitals.Contains(city);
+            if (inCapitals)
+                throw new ArgumentException("capital already added.");
+            _capitals.Add(city);
+        }
+        public void RemoveCapital(City city) 
+        {
+            CheckCityForNull(city);
+            bool isRemoved = _capitals.Remove(city);
+            if (!isRemoved)
+            {
+                throw new ArgumentException($"river is not in {Name}");
+            }
+        }
         #region Checkfunctions
         private void CheckRiverForNull(River river) 
         {
