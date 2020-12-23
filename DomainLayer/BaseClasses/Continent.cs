@@ -7,8 +7,17 @@ namespace DomainLayer.BaseClasses
 {
     public class Continent
     {
+        /// <summary>
+        /// continentId
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// coninent name = unique
+        /// </summary>
         public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
+        /// <summary>
+        /// population generated from populations of all countries
+        /// </summary>
         public ulong Population { get => Population; 
             private set 
             {
@@ -18,15 +27,26 @@ namespace DomainLayer.BaseClasses
             } 
         }
         private List<Country> _countries = new List<Country>();
+        /// <summary>
+        /// countries in continent
+        /// </summary>
         public IReadOnlyList<Country> Countries { get => _countries.AsReadOnly();}
 
         public Continent() { }
+        /// <summary>
+        /// constructor of continent with no countries
+        /// </summary>
+        /// <param name="name">Name of continent</param>
         public Continent(string name)
         {
             Name = name;
             SetPopulation();
         }
-
+        /// <summary>
+        /// constructor of continent with countries
+        /// </summary>
+        /// <param name="name">Name of continent</param>
+        /// <param name="countries">list of all countries of continent</param>
         public Continent(string name, List<Country> countries)
         {
             Name = name;
@@ -36,7 +56,9 @@ namespace DomainLayer.BaseClasses
             _countries = countries;
             SetPopulation();
         }
-
+        /// <summary>
+        /// setter for population goes through fall countries and adds population
+        /// </summary>
         private void SetPopulation() 
         {
             if (_countries.Count > 0)
@@ -46,7 +68,12 @@ namespace DomainLayer.BaseClasses
             else
                 Population = 0;
         }
-
+        /// <summary>
+        /// method to add country and automatically updates population
+        /// </summary>
+        /// <param name="name">Name of country</param>
+        /// <param name="population">Population of country</param>
+        /// <param name="surface">surface area of country</param>
         public void AddCountry(string name, uint population, float surface ) 
         {
             Country country = new Country(name, population, surface, this);
@@ -56,6 +83,10 @@ namespace DomainLayer.BaseClasses
             _countries.Add(country);
             Population += population;
         }
+        /// <summary>
+        /// method to delete country and automatically updates population
+        /// </summary>
+        /// <param name="country"></param>
         public void DeleteCountry(Country country)
         {
             CheckCountryForNull(country);
@@ -66,10 +97,13 @@ namespace DomainLayer.BaseClasses
             if (removed == false) 
             {
                     throw new ArgumentException($"country is not in {Name}");
-                //TODO: population aanpassen.
             }
+            Population -= country.Population;
         }
-
+        /// <summary>
+        /// checks country for null value and returns exception if true
+        /// </summary>
+        /// <param name="country">Country to check</param>
         private void CheckCountryForNull(Country country) 
         {
             if (country == null)

@@ -6,8 +6,17 @@ namespace DomainLayer.BaseClasses
 {
     public class River
     {
+        /// <summary>
+        /// Id of river
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// Name of River
+        /// </summary>
         public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
+        /// <summary>
+        /// Length of river in m
+        /// </summary>
         public double Length
         {
             get => Length;
@@ -18,17 +27,28 @@ namespace DomainLayer.BaseClasses
                 Length = value;
             }
         }
-
+       
         private List<Country> _countries = new List<Country>();
+        /// <summary>
+        /// List of countries that river is in.
+        /// </summary>
         public IReadOnlyList<Country> Countries { get => _countries.AsReadOnly(); }
-
+        /// <summary>
+        /// Constructor to make river object
+        /// </summary>
+        /// <param name="name">Name of river</param>
+        /// <param name="length">length of river in m</param>
+        /// <param name="country">country river is in</param>
         public River(string name, double length, Country country)
         {
             Name = name;
             Length = length;
             AddCountry(country);
         }
-
+        /// <summary>
+        /// Adds country to list where river is situated
+        /// </summary>
+        /// <param name="country">Country river is in</param>
         public void AddCountry(Country country)
         {
             bool inCountries = _countries.Contains(country);
@@ -37,6 +57,10 @@ namespace DomainLayer.BaseClasses
             _countries.Add(country);
             country.AddRiver(this);         
         }
+        /// <summary>
+        /// Deletes country from list where river is situated
+        /// </summary>
+        /// <param name="country">Country river is in</param>
         public void DeleteCountry(Country country) 
         {
             if (_countries.Count < 2)
