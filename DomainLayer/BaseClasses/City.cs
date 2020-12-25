@@ -10,10 +10,19 @@ namespace DomainLayer.BaseClasses
         /// Id of city
         /// </summary>
         public uint Id { get; set; }
+        private string _name;
         /// <summary>
         /// Name of city
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get => _name; private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Name can't be null or empty.");
+                }
+                _name = value;
+            }
+        }
         /// <summary>
         /// Population of city
         /// </summary>

@@ -25,18 +25,10 @@ namespace DomainLayer.BaseClasses
                 _name = value; 
             } 
         }
-        private ulong _population = 0;
         /// <summary>
         /// population generated from populations of all countries
         /// </summary>
-        public ulong Population { get => _population; 
-            private set 
-            {
-                if (value < 0) 
-                    throw new ArgumentException("Population can't be negative.");
-                _population = value;
-            } 
-        }
+        public ulong Population { get; set; } = 0;
         private List<Country> _countries = new List<Country>();
         /// <summary>
         /// countries in continent

@@ -22,18 +22,10 @@ namespace DomainLayer.BaseClasses
                 _name = value; 
             } 
         }
-        private uint _population;
         /// <summary>
         /// Population of country , can't be negative
         /// </summary>
-        public uint Population
-        {
-            get => _population;
-            private set
-            {
-                _population = value;
-            }
-        }
+        public uint Population { get; set; };
         private float _surface;
         /// <summary>
         /// Surface area of country
