@@ -10,7 +10,7 @@ namespace DomainLayer.BaseClasses
         /// <summary>
         /// CountryId
         /// </summary>
-        public int Id { get; set; }
+        public uint Id { get; set; }
         private string _name;
         /// <summary>
         /// Country name = unique
@@ -87,31 +87,7 @@ namespace DomainLayer.BaseClasses
             Surface = surface;
             Continent = continent;
         }
-        /// <summary>
-        /// Add river to country
-        /// </summary>
-        /// <param name="river">River to add</param>
-        internal void AddRiver(River river) 
-        {
-            CheckRiverForNull(river);
-            bool isInRivers = _rivers.Contains(river);
-            if (isInRivers)
-                throw new ArgumentException($"{river.Name} is already in {this.Name}");
-            _rivers.Add(river);
-        }
-        /// <summary>
-        /// Removes river of country
-        /// </summary>
-        /// <param name="river">River to remove</param>
-        public void RemoveRiver(River river) 
-        {
-            CheckRiverForNull(river);
-            bool isRemoved = _rivers.Remove(river);
-            if (!isRemoved)
-            {
-                    throw new ArgumentException($"river is not in {Name}");
-            }
-        }
+
         /// <summary>
         /// Adds city to list of cities of country
         /// </summary>
@@ -122,10 +98,10 @@ namespace DomainLayer.BaseClasses
             City city = new City(name, population, this);
             bool inCities = _cities.Contains(city);
             if (inCities)
-                throw new ArgumentException("city already added.");
+                throw new ArgumentException($"{name} already added.");
             //check population city doesnt exceed population country
             if (!IsPopulationCorrect(population))
-                throw new Exception("population would exceed country's population.");
+                throw new Exception($"population: {population} would exceed country's population: {Population}.");
             _cities.Add(city);
         }
         /// <summary>
@@ -137,11 +113,11 @@ namespace DomainLayer.BaseClasses
             CheckCityForNull(city);
             bool isInCapitals = _capitals.Contains(city);
             if (isInCapitals)
-                throw new ArgumentException("city is in capitals. pls remove from capital first.");
+                throw new ArgumentException($"city: {city.Name} is in capitals. pls remove from capital first.");
             bool isRemoved = _cities.Remove(city);
             if (!isRemoved)
             {
-                    throw new ArgumentException($"city is not in {Name}");
+                    throw new ArgumentException($"city is not in {Name}.");
             }
         }
         /// <summary>
@@ -157,7 +133,7 @@ namespace DomainLayer.BaseClasses
             };
             bool inCapitals = _capitals.Contains(capital);
             if (inCapitals)
-                throw new ArgumentException("capital already added.");
+                throw new ArgumentException($"capital: {name} already added.");
             _capitals.Add(capital);
             //addToCities
             City toAddToCities = _cities.SingleOrDefault(city => city == capital);
@@ -180,8 +156,43 @@ namespace DomainLayer.BaseClasses
             bool isRemoved = _capitals.Remove(capital);
             if (!isRemoved)
             {
+                throw new ArgumentException($"capital: {capital.Name} is not in {Name}.");
+            }
+        }
+        /// <summary>
+        /// Add river to country
+        /// </summary>
+        /// <param name="river">River to add</param>
+        internal void AddRiver(River river)
+        {
+            CheckRiverForNull(river);
+            bool isInRivers = _rivers.Contains(river);
+            if (isInRivers)
+                throw new ArgumentException($"{river.Name} is already in {this.Name}");
+            _rivers.Add(river);
+        }
+        /// <summary>
+        /// Removes river of country
+        /// </summary>
+        /// <param name="river">River to remove</param>
+        internal void RemoveRiver(River river)
+        {
+            CheckRiverForNull(river);
+            bool isRemoved = _rivers.Remove(river);
+            if (!isRemoved)
+            {
                 throw new ArgumentException($"river is not in {Name}");
             }
+        }
+
+        /// <summary>
+        /// Checks river for null value returns exception if null
+        /// </summary>
+        /// <param name="river">River to check</param>
+        private void CheckRiverForNull(River river)
+        {
+            if (river == null)
+                throw new ArgumentException("river can't be null");
         }
         #region Checkfunctions
         /// <summary>
@@ -195,15 +206,7 @@ namespace DomainLayer.BaseClasses
             _cities.ForEach(city => populationCalculated += city.Population);
             return (Population >= populationCalculated);
         }
-        /// <summary>
-        /// Checks river for null value returns exception if null
-        /// </summary>
-        /// <param name="river">River to check</param>
-        private void CheckRiverForNull(River river) 
-        {
-            if (river == null)
-                throw new ArgumentException("river can't be null");
-        }
+
         /// <summary>
         /// Checks city for null value returns exception if null
         /// </summary>

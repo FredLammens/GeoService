@@ -10,7 +10,7 @@ namespace DomainLayer.BaseClasses
         /// <summary>
         /// continentId
         /// </summary>
-        public int Id { get; set; }
+        public uint Id { get; set; }
         private string _name;
         /// <summary>
         /// coninent name = unique
@@ -52,6 +52,7 @@ namespace DomainLayer.BaseClasses
         {
             Name = name;
         }
+
         /// <summary>
         /// method to add country and automatically updates population
         /// </summary>

@@ -9,7 +9,7 @@ namespace DomainLayer.BaseClasses
         /// <summary>
         /// Id of river
         /// </summary>
-        public int Id { get; set; }
+        public uint Id { get; set; }
         private string _name;
         /// <summary>
         /// Name of River
@@ -70,6 +70,7 @@ namespace DomainLayer.BaseClasses
             bool isRemoved = _countries.Remove(country);
             if (!isRemoved)
                 throw new Exception("county was already removed.");
+            country.RemoveRiver(this);
 
         }
     }

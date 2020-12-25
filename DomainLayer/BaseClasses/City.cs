@@ -9,7 +9,7 @@ namespace DomainLayer.BaseClasses
         /// <summary>
         /// Id of city
         /// </summary>
-        public int Id { get; set; }
+        public uint Id { get; set; }
         /// <summary>
         /// Name of city
         /// </summary>
