@@ -11,43 +11,52 @@ namespace DomainLayer.BaseClasses
         /// CountryId
         /// </summary>
         public int Id { get; set; }
+        private string _name;
         /// <summary>
         /// Country name = unique
         /// </summary>
-        public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
+        public string Name { get => _name; 
+            private set {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("Name can't be null or empty.");
+                _name = value; 
+            } 
+        }
+        private int _population;
         /// <summary>
         /// Population of country , can't be negative
         /// </summary>
-        public uint Population
+        public int Population
         {
-            get => Population;
+            get => _population;
             private set
             {
                 if (value < 0)
                     throw new ArgumentException("Population can't be negative.");
-                Population = value;
+                _population = value;
             }
         }
+        private float _surface;
         /// <summary>
         /// Surface area of country
         /// </summary>
         public float Surface {
-            get => Surface;
+            get => _surface;
             private set 
             {
                 if (value < 0)
                     throw new ArgumentException("Surface can't be negative.");
-                Surface = value;
+                _surface = value;
             }
         }
+        private Continent _continent;
         /// <summary>
         /// Continent country belongs to
         /// </summary>
-        public Continent Continent { get => Continent; 
+        public Continent Continent { get => _continent; 
             set { 
                 if (value == null) throw new ArgumentException("continent can't be null.");
-                Continent = value;
-                //Todo: aanpassing aan continent moet doorgevoerd worden aan population continent
+                _continent = value;
             } 
         }
 
@@ -73,7 +82,7 @@ namespace DomainLayer.BaseClasses
         /// <param name="population">Population of country</param>
         /// <param name="surface">Surface area of country</param>
         /// <param name="continent">continent country belongs to</param>
-        public Country(string name, uint population, float surface, Continent continent)
+        public Country(string name, int population, float surface, Continent continent)
         {
             Name = name;
             Population = population;
@@ -110,7 +119,7 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="name">Name of city</param>
         /// <param name="population">Population of city</param>
-        public void AddCity(string name, uint population) 
+        public void AddCity(string name, int population) 
         {
             City city = new City(name, population, this);
             bool inCities = _cities.Contains(city);
@@ -142,7 +151,7 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="name">Name of capital to add</param>
         /// <param name="population">Population of capital to add</param>
-        public void AddCaptial(string name, uint population) 
+        public void AddCaptial(string name, int population) 
         {
             City capital = new City(name, population, this)
             {
@@ -182,9 +191,9 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="populationToAdd">Population to add</param>
         /// <returns>ispopulation bigger than calculated population of cities</returns>
-        private bool IsPopulationCorrect(uint populationToAdd) 
+        private bool IsPopulationCorrect(int populationToAdd) 
         {
-            uint populationCalculated = populationToAdd;
+            int populationCalculated = populationToAdd;
             _cities.ForEach(city => populationCalculated += city.Population);
             return (Population >= populationCalculated);
         }

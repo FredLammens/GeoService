@@ -11,19 +11,30 @@ namespace DomainLayer.BaseClasses
         /// continentId
         /// </summary>
         public int Id { get; set; }
+        private string _name;
         /// <summary>
         /// coninent name = unique
         /// </summary>
-        public string Name { get => Name; private set { if (string.IsNullOrEmpty(value)) throw new ArgumentException("Name can't be null or empty."); Name = value; } }
+        public string Name { get => _name; 
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                { 
+                    throw new ArgumentException("Name can't be null or empty.");
+                }
+                _name = value; 
+            } 
+        }
+        private long _population = 0;
         /// <summary>
         /// population generated from populations of all countries
         /// </summary>
-        public ulong Population { get => Population; 
+        public long Population { get => _population; 
             private set 
             {
                 if (value < 0) 
                     throw new ArgumentException("Population can't be negative.");
-                Population = value;
+                _population = value;
             } 
         }
         private List<Country> _countries = new List<Country>();
@@ -40,33 +51,6 @@ namespace DomainLayer.BaseClasses
         public Continent(string name)
         {
             Name = name;
-            SetPopulation();
-        }
-        /// <summary>
-        /// constructor of continent with countries
-        /// </summary>
-        /// <param name="name">Name of continent</param>
-        /// <param name="countries">list of all countries of continent</param>
-        public Continent(string name, List<Country> countries)
-        {
-            Name = name;
-            bool allCountriesFromContinent = countries.TrueForAll(country => country.Continent == this);
-            if (allCountriesFromContinent == false)
-                throw new ArgumentException($"All countries need to be of continent: {name}");
-            _countries = countries;
-            SetPopulation();
-        }
-        /// <summary>
-        /// setter for population goes through fall countries and adds population
-        /// </summary>
-        private void SetPopulation() 
-        {
-            if (_countries.Count > 0)
-            {
-                _countries.ForEach(countrie => Population += countrie.Population);
-            }
-            else
-                Population = 0;
         }
         /// <summary>
         /// method to add country and automatically updates population
@@ -74,7 +58,7 @@ namespace DomainLayer.BaseClasses
         /// <param name="name">Name of country</param>
         /// <param name="population">Population of country</param>
         /// <param name="surface">surface area of country</param>
-        public void AddCountry(string name, uint population, float surface ) 
+        public void AddCountry(string name, int population, float surface ) 
         {
             Country country = new Country(name, population, surface, this);
             bool inCountries = _countries.Contains(country);

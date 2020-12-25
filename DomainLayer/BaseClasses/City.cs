@@ -17,7 +17,7 @@ namespace DomainLayer.BaseClasses
         /// <summary>
         /// Population of city
         /// </summary>
-        public uint Population { get; set; }
+        public int Population { get; set; }
         /// <summary>
         /// Country city belongs to
         /// </summary>
@@ -33,7 +33,7 @@ namespace DomainLayer.BaseClasses
         /// <param name="population"></param>
         /// <param name="belongsTo"></param>
 
-        public City( string name, uint population, Country belongsTo)
+        public City( string name, int population, Country belongsTo)
         {
             Name = name;
             Population = population;
