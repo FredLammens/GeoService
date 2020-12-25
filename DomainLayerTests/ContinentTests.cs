@@ -2,8 +2,6 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DomainLayerTests
 {
@@ -40,6 +38,14 @@ namespace DomainLayerTests
             continent.Population.Should().Be(95540000);
         }
         [TestMethod]
+        public void ContinentAddCountryTest()
+        {
+            Continent continent = new Continent("Azië");
+            continent.AddCountry("vietnam", 95540000, 331.212f);
+            continent.Population.Should().Be(95540000);
+            continent.Countries.Count.Should().Be(1);
+        }
+        [TestMethod]
         public void ContinentDeleteCountryNullThrowsExceptionTest()
         {
             Continent continent = new Continent("Azië");
@@ -54,6 +60,7 @@ namespace DomainLayerTests
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
             continent.AddCountry(country.Name, country.Population, country.Surface);
+            continent.DeleteCountry(country);
             Action act = () => continent.DeleteCountry(country);
             act.Should().Throw<ArgumentException>().WithMessage("country is not in Azië");
         }

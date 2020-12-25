@@ -25,11 +25,11 @@ namespace DomainLayer.BaseClasses
                 _name = value; 
             } 
         }
-        private long _population = 0;
+        private ulong _population = 0;
         /// <summary>
         /// population generated from populations of all countries
         /// </summary>
-        public long Population { get => _population; 
+        public ulong Population { get => _population; 
             private set 
             {
                 if (value < 0) 
@@ -58,7 +58,7 @@ namespace DomainLayer.BaseClasses
         /// <param name="name">Name of country</param>
         /// <param name="population">Population of country</param>
         /// <param name="surface">surface area of country</param>
-        public void AddCountry(string name, int population, float surface ) 
+        public void AddCountry(string name, uint population, float surface ) 
         {
             Country country = new Country(name, population, surface, this);
             bool inCountries = _countries.Contains(country);

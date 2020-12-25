@@ -22,17 +22,15 @@ namespace DomainLayer.BaseClasses
                 _name = value; 
             } 
         }
-        private int _population;
+        private uint _population;
         /// <summary>
         /// Population of country , can't be negative
         /// </summary>
-        public int Population
+        public uint Population
         {
             get => _population;
             private set
             {
-                if (value < 0)
-                    throw new ArgumentException("Population can't be negative.");
                 _population = value;
             }
         }
@@ -82,7 +80,7 @@ namespace DomainLayer.BaseClasses
         /// <param name="population">Population of country</param>
         /// <param name="surface">Surface area of country</param>
         /// <param name="continent">continent country belongs to</param>
-        public Country(string name, int population, float surface, Continent continent)
+        public Country(string name, uint population, float surface, Continent continent)
         {
             Name = name;
             Population = population;
@@ -119,7 +117,7 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="name">Name of city</param>
         /// <param name="population">Population of city</param>
-        public void AddCity(string name, int population) 
+        public void AddCity(string name, uint population) 
         {
             City city = new City(name, population, this);
             bool inCities = _cities.Contains(city);
@@ -143,7 +141,7 @@ namespace DomainLayer.BaseClasses
             bool isRemoved = _cities.Remove(city);
             if (!isRemoved)
             {
-                    throw new ArgumentException($"river is not in {Name}");
+                    throw new ArgumentException($"city is not in {Name}");
             }
         }
         /// <summary>
@@ -151,7 +149,7 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="name">Name of capital to add</param>
         /// <param name="population">Population of capital to add</param>
-        public void AddCaptial(string name, int population) 
+        public void AddCaptial(string name, uint population) 
         {
             City capital = new City(name, population, this)
             {
@@ -191,9 +189,9 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="populationToAdd">Population to add</param>
         /// <returns>ispopulation bigger than calculated population of cities</returns>
-        private bool IsPopulationCorrect(int populationToAdd) 
+        private bool IsPopulationCorrect(uint populationToAdd) 
         {
-            int populationCalculated = populationToAdd;
+            uint populationCalculated = populationToAdd;
             _cities.ForEach(city => populationCalculated += city.Population);
             return (Population >= populationCalculated);
         }
