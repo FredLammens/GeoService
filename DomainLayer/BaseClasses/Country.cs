@@ -25,7 +25,7 @@ namespace DomainLayer.BaseClasses
         /// <summary>
         /// Population of country , can't be negative
         /// </summary>
-        public uint Population { get; set; };
+        public uint Population { get; set; }
         private float _surface;
         /// <summary>
         /// Surface area of country

@@ -27,10 +27,18 @@ namespace DomainLayer.BaseClasses
         /// Population of city
         /// </summary>
         public uint Population { get; set; }
+        private Country _belongsTo;
         /// <summary>
         /// Country city belongs to
         /// </summary>
-        public Country BelongsTo { get; set; }
+        public Country BelongsTo { get => _belongsTo;
+            private set 
+            {
+                if (value == null)
+                    throw new ArgumentException("City needs to belong to country.");
+                _belongsTo = value;
+            }
+        }
         /// <summary>
         /// is capital from 
         /// </summary>
