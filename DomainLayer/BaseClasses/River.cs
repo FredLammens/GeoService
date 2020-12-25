@@ -55,7 +55,7 @@ namespace DomainLayer.BaseClasses
         {
             bool inCountries = _countries.Contains(country);
             if (inCountries)
-                throw new ArgumentException("country already added.");
+                throw new ArgumentException("Country already added.");
             _countries.Add(country);
             country.AddRiver(this);         
         }
@@ -65,11 +65,11 @@ namespace DomainLayer.BaseClasses
         /// <param name="country">Country river is in</param>
         public void DeleteCountry(Country country) 
         {
-            if (_countries.Count < 2)
+            if (_countries.Count == 1)
                 throw new ArgumentException($"{Name} needs to be in at least 1 country.");
             bool isRemoved = _countries.Remove(country);
             if (!isRemoved)
-                throw new Exception("county was already removed.");
+                throw new Exception($"country: {country.Name} was already removed.");
             country.RemoveRiver(this);
 
         }
