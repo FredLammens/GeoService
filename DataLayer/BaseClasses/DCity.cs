@@ -23,15 +23,7 @@ namespace DataLayer.BaseClasses
         /// </summary>
         [Required]
         public uint Population { get; set; }
-        /// <summary>
-        /// Data Country city belongs to
-        /// </summary>
-       
-        public DCountry BelongsTo { get; set; }
-        /// <summary>
-        /// Capital from DataCountry
-        /// </summary>
-        public DCountry CapitalFrom { get; set; }
+
 
         public DCity()
         {

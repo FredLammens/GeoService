@@ -27,11 +27,6 @@ namespace DataLayer.BaseClasses
         /// </summary>
         [Required]
         public float Surface { get; set; }
-        /// <summary>
-        /// Data Continent country belongs to
-        /// </summary>
-        [Required]
-        public DContinent Continent { get; set; }
 
 
         /// <summary>
@@ -57,21 +52,6 @@ namespace DataLayer.BaseClasses
             Name = name;
             Population = population;
             Surface = surface;
-        }
-
-        /// <summary>
-        /// Constructor to make country object
-        /// </summary>
-        /// <param name="name">Country name = unique</param>
-        /// <param name="population">Population of country</param>
-        /// <param name="surface">Surface area of country</param>
-        /// <param name="continent">continent country belongs to</param>
-        public DCountry(string name, uint population, float surface, DContinent continent)
-        {
-            Name = name;
-            Population = population;
-            Surface = surface;
-            Continent = continent;
         }
     }
 }
