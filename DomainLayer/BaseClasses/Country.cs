@@ -85,15 +85,15 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="name">Name of city</param>
         /// <param name="population">Population of city</param>
-        public void AddCity(string name, uint population) 
+        public void AddCity(City city) 
         {
-            City city = new City(name, population, this);
+            CheckCityForSameCountry(city);
             bool inCities = _cities.Contains(city);
             if (inCities)
-                throw new ArgumentException($"{name} already added.");
+                throw new ArgumentException($"{city.Name} already added.");
             //check population city doesnt exceed population country
-            if (!IsPopulationCorrect(population))
-                throw new Exception($"population: {population} would exceed country's population: {Population}.");
+            if (!IsPopulationCorrect(city.Population))
+                throw new Exception($"population: {city.Population} would exceed country's population: {Population}.");
             _cities.Add(city);
         }
         /// <summary>
@@ -117,15 +117,14 @@ namespace DomainLayer.BaseClasses
         /// </summary>
         /// <param name="name">Name of capital to add</param>
         /// <param name="population">Population of capital to add</param>
-        public void AddCaptial(string name, uint population) 
+        public void AddCaptial(City capital) 
         {
-            City capital = new City(name, population, this)
-            {
-                CapitalFrom = this
-            };
+            CheckCityForSameCountry(capital);
+            CheckCapitalNotFromOtherCountry(capital);
             bool inCapitals = _capitals.Contains(capital);
             if (inCapitals)
-                throw new ArgumentException($"capital: {name} already added.");
+                throw new ArgumentException($"capital: {capital.Name} already added.");
+            capital.CapitalFrom = this;
             _capitals.Add(capital);
             //addToCities
             City toAddToCities = _cities.SingleOrDefault(city => city == capital);
@@ -207,6 +206,16 @@ namespace DomainLayer.BaseClasses
         {
             if (city == null)
                 throw new ArgumentException("city can't be null");
+        }
+        private void CheckCityForSameCountry(City city) 
+        {
+            if (city.BelongsTo != this)
+                throw new ArgumentException($"city is not from country: {Name}");
+        }
+        private void CheckCapitalNotFromOtherCountry(City capital) 
+        {
+            if(capital.CapitalFrom != this)
+                throw new ArgumentException($"capital is not from country: {Name}");
         }
 
         #endregion
