@@ -51,14 +51,14 @@ namespace DomainLayer.BaseClasses
         /// <param name="name">Name of country</param>
         /// <param name="population">Population of country</param>
         /// <param name="surface">surface area of country</param>
-        public void AddCountry(string name, uint population, float surface ) 
+        public void AddCountry(Country country) 
         {
-            Country country = new Country(name, population, surface, this);
+            CheckIfSameContinent(country);
             bool inCountries = _countries.Contains(country);
             if (inCountries)
                 throw new ArgumentException("country already added.");
             _countries.Add(country);
-            Population += population;
+            Population += country.Population;
         }
         /// <summary>
         /// method to delete country and automatically updates population
@@ -85,6 +85,12 @@ namespace DomainLayer.BaseClasses
         {
             if (country == null)
                 throw new ArgumentException("country can't be null");
+        }
+
+        private void CheckIfSameContinent(Country country) 
+        {
+            if (country.Continent != this)
+                throw new ArgumentException("country is not from this continent.");
         }
 
         #region equals
