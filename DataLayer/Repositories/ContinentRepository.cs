@@ -13,12 +13,13 @@ namespace DataLayer.Repositories
         {
             this.context = context;
         }
+
         public void AddContinent(Continent continent)
         {
             throw new NotImplementedException();
         }
 
-        public void GetContinent(int id)
+        public Continent GetContinent(int id)
         {
             throw new NotImplementedException();
         }

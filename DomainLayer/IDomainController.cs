@@ -24,11 +24,12 @@ namespace DomainLayer
         /// <param name="continentId">id of continent to delete</param>
         public void DeleteContinent(int continentId);
         /// <summary>
-        /// Update's continent from database
+        /// Update's continent from database if already in database.
+        /// Insert into database if doesnt exist yet.
         /// </summary>
         /// <param name="continentId">continent id to update</param>
         /// <param name="continent">continent object to update with</param>
-        public void UpdateContinent(int continentId, Continent continent);
+        public void UpsertContinent(int continentId, Continent continent);
         /// <summary>
         /// Add's country to database
         /// </summary>
@@ -49,12 +50,13 @@ namespace DomainLayer
         /// <param name="countryId">country id to delete </param>
         public void DeleteCountry(int continentId, int countryId);
         /// <summary>
-        /// Updates country from database
+        /// Updates country from database if already in DB.
+        /// Inserts country in DB if not already in
         /// </summary>
         /// <param name="continentId">continent id to update country from</param>
         /// <param name="countryId">country id to be updated </param>
         /// <param name="country">country object to update</param>
-        public void UpdateCountry(int continentId, int countryId, Country country);
+        public void UpsertCountry(int continentId, int countryId, Country country);
         /// <summary>
         /// Adds city to database
         /// </summary>
@@ -78,13 +80,14 @@ namespace DomainLayer
         /// <param name="cityId">city id to delete</param>
         public void DeleteCity(int continentId, int countryId, int cityId);
         /// <summary>
-        /// Update's city from database
+        /// Update's city from database if already in DB.
+        /// Insert into DB if not in DB.
         /// </summary>
         /// <param name="continentId">continent id to update city from</param>
         /// <param name="countryId">country id to update city from</param>
         /// <param name="cityId">city id to update</param>
         /// <param name="city">city object to update</param>
-        public void UpdateCity(int continentId, int countryId, int cityId, City city);
+        public void UpsertCity(int continentId, int countryId, int cityId, City city);
         /// <summary>
         /// Add's river to database
         /// </summary>
@@ -102,11 +105,12 @@ namespace DomainLayer
         /// <param name="riverId">riverId to delete</param>
         public void DeleteRiver(int riverId);
         /// <summary>
-        /// Update's river from database
+        /// Update's river from database if already in DB.
+        /// Insert river into database if not in DB.
         /// </summary>
         /// <param name="riverId">riverId to update</param>
         /// <param name="river">river object to update</param>
-        public void UpdateRiver(int riverId, River river);
+        public void UpsertRiver(int riverId, River river);
 
 
     }
