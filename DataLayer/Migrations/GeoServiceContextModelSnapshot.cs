@@ -18,19 +18,19 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
-            modelBuilder.Entity("DCountryDRiver", b =>
+            modelBuilder.Entity("DataLayer.BaseClasses.CountryRiver", b =>
                 {
-                    b.Property<long>("CountriesId")
+                    b.Property<long>("CountryId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("RiversId")
+                    b.Property<long>("RiverId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("CountriesId", "RiversId");
+                    b.HasKey("CountryId", "RiverId");
 
-                    b.HasIndex("RiversId");
+                    b.HasIndex("RiverId");
 
-                    b.ToTable("DCountryDRiver");
+                    b.ToTable("CountryRiver");
                 });
 
             modelBuilder.Entity("DataLayer.BaseClasses.DCity", b =>
@@ -127,19 +127,23 @@ namespace DataLayer.Migrations
                     b.ToTable("Rivers");
                 });
 
-            modelBuilder.Entity("DCountryDRiver", b =>
+            modelBuilder.Entity("DataLayer.BaseClasses.CountryRiver", b =>
                 {
-                    b.HasOne("DataLayer.BaseClasses.DCountry", null)
-                        .WithMany()
-                        .HasForeignKey("CountriesId")
+                    b.HasOne("DataLayer.BaseClasses.DCountry", "Country")
+                        .WithMany("Rivers")
+                        .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.BaseClasses.DRiver", null)
-                        .WithMany()
-                        .HasForeignKey("RiversId")
+                    b.HasOne("DataLayer.BaseClasses.DRiver", "River")
+                        .WithMany("Countries")
+                        .HasForeignKey("RiverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("River");
                 });
 
             modelBuilder.Entity("DataLayer.BaseClasses.DCity", b =>
@@ -170,6 +174,13 @@ namespace DataLayer.Migrations
                     b.Navigation("Capitals");
 
                     b.Navigation("Cities");
+
+                    b.Navigation("Rivers");
+                });
+
+            modelBuilder.Entity("DataLayer.BaseClasses.DRiver", b =>
+                {
+                    b.Navigation("Countries");
                 });
 #pragma warning restore 612, 618
         }

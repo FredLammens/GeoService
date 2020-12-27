@@ -60,5 +60,22 @@ namespace DataLayer
                 SetConnectionString();
             optionsBuilder.UseSqlServer(connectionString);
         }
+        /// <summary>
+        /// Used to configure the relationship between river and country
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CountryRiver>()
+                 .HasKey(cr => new { cr.CountryId, cr.RiverId });
+            modelBuilder.Entity<CountryRiver>()
+                .HasOne(cr => cr.Country)
+                .WithMany(c => c.Rivers)
+                .HasForeignKey(cr => cr.CountryId);
+            modelBuilder.Entity<CountryRiver>()
+                .HasOne(cr => cr.River)
+                .WithMany(r => r.Countries)
+                .HasForeignKey(cr => cr.RiverId);
+        }
     }
 }

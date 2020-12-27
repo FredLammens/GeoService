@@ -35,8 +35,9 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            country.AddCity("Hanoi", 7520700);
-            Action act = () => country.AddCity("Hanoi", 7520700);
+            City city = new City("Hanoi", 7520700, country);
+            country.AddCity(city);
+            Action act = () => country.AddCity(city);
             act.Should().Throw<ArgumentException>().WithMessage("Hanoi already added.");
         }
         [TestMethod]
@@ -44,7 +45,8 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            Action act = () => country.AddCity("Hanoi", 95540001);
+            City city = new City("Hanoi", 95540001, country);
+            Action act = () => country.AddCity(city);
             act.Should().Throw<Exception>().WithMessage("population: 95540001 would exceed country's population: 95540000.");
         }
         [TestMethod]
@@ -52,18 +54,10 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            Action act = () => country.AddCity("Hanoi", 7520700);
+            City city = new City("Hanoi", 7520700, country);
+            Action act = () => country.AddCity(city);
             act.Should().NotThrow();
             country.Cities.Count.Should().Be(1);
-        }
-        [TestMethod]
-        public void CountryRemoveCityNullThrowsException()
-        {
-            Continent continent = new Continent("Azië");
-            Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            country.AddCity("Hanoi", 7520700);
-            Action act = () => country.RemoveCity(null);
-            act.Should().Throw<ArgumentException>().WithMessage("city can't be null");
         }
         [TestMethod]
         public void CountryRemoveCityAlreadyRemovedThrowsException()
@@ -79,9 +73,9 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            City city = new City("Hanoi", 7520700, country);
-            country.AddCaptial(city.Name, city.Population);
-            Action act = () => country.RemoveCity(city);
+            City capital = new City("Hanoi", 7520700, country);
+            country.AddCaptial(capital);
+            Action act = () => country.RemoveCity(capital);
             act.Should().Throw<ArgumentException>().WithMessage("city: Hanoi is in capitals. pls remove from capital first.");
         }
         [TestMethod]
@@ -90,7 +84,7 @@ namespace DomainLayerTests
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
             City city = new City("Hanoi", 7520700, country);
-            country.AddCity(city.Name, city.Population);
+            country.AddCity(city);
             Action act = () => country.RemoveCity(city);
             act.Should().NotThrow();
         }
@@ -99,9 +93,9 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            City city = new City("Hanoi", 7520700, country);
-            country.AddCaptial(city.Name, city.Population);
-            Action act = () => country.AddCaptial(city.Name, city.Population);
+            City capital = new City("Hanoi", 7520700, country);
+            country.AddCaptial(capital);
+            Action act = () => country.AddCaptial(capital);
             act.Should().Throw<ArgumentException>().WithMessage("capital: Hanoi already added.");
         }
         [TestMethod]
@@ -109,8 +103,8 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            City city = new City("Hanoi", 7520700, country);
-            Action act = () => country.AddCaptial(city.Name, city.Population);
+            City capital = new City("Hanoi", 7520700, country);
+            Action act = () => country.AddCaptial(capital);
             act.Should().NotThrow();
             country.Capitals.Count.Should().Be(1);
         }
@@ -119,8 +113,8 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            City city = new City("Hanoi", 7520700, country);
-            country.AddCaptial(city.Name, city.Population);
+            City capital = new City("Hanoi", 7520700, country);
+            country.AddCaptial(capital);
             Action act = () => country.RemoveCapital(null);
             act.Should().Throw<ArgumentException>().WithMessage("city can't be null");
         }
@@ -129,10 +123,10 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            City city = new City("Hanoi", 7520700, country);
-            country.AddCaptial(city.Name, city.Population);
-            country.RemoveCapital(city);
-            Action act = () => country.RemoveCapital(city);
+            City capital = new City("Hanoi", 7520700, country);
+            country.AddCaptial(capital);
+            country.RemoveCapital(capital);
+            Action act = () => country.RemoveCapital(capital);
             act.Should().Throw<ArgumentException>().WithMessage("capital: Hanoi is not in vietnam.");
         }
         [TestMethod]
@@ -140,9 +134,9 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            City city = new City("Hanoi", 7520700, country);
-            country.AddCaptial(city.Name, city.Population);
-            Action act = () => country.RemoveCapital(city);
+            City capital = new City("Hanoi", 7520700, country);
+            country.AddCaptial(capital);
+            Action act = () => country.RemoveCapital(capital);
             act.Should().NotThrow();
             country.Capitals.Count.Should().Be(0);
         }

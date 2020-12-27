@@ -25,8 +25,9 @@ namespace DomainLayerTests
         public void ContinentAddCountryAlreadyInTest()
         {
             Continent continent = new Continent("Azië");
-            continent.AddCountry("vietnam", 95540000, 331.212f);
-            Action act = () => continent.AddCountry("vietnam", 95540000, 331.212f);
+            Country country = new Country("vietnam", 95540000, 331.212f,continent);
+            continent.AddCountry(country);
+            Action act = () => continent.AddCountry(country);
             act.Should().Throw<ArgumentException>().WithMessage("country already added.");
         }
 
@@ -34,14 +35,16 @@ namespace DomainLayerTests
         public void ContinentAddCountryCheckPopulationTest()
         {
             Continent continent = new Continent("Azië");
-            continent.AddCountry("vietnam", 95540000, 331.212f);
+            Country country = new Country("vietnam", 95540000, 331.212f, continent);
+            continent.AddCountry(country);
             continent.Population.Should().Be(95540000);
         }
         [TestMethod]
         public void ContinentAddCountryTest()
         {
             Continent continent = new Continent("Azië");
-            continent.AddCountry("vietnam", 95540000, 331.212f);
+            Country country = new Country("vietnam", 95540000, 331.212f, continent);
+            continent.AddCountry(country);
             continent.Population.Should().Be(95540000);
             continent.Countries.Count.Should().Be(1);
         }
@@ -50,7 +53,7 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            continent.AddCountry(country.Name, country.Population, country.Surface);
+            continent.AddCountry(country);
             Action act = () => continent.DeleteCountry(null);
             act.Should().Throw<ArgumentException>().WithMessage("country can't be null");
         }
@@ -59,7 +62,7 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            continent.AddCountry(country.Name, country.Population, country.Surface);
+            continent.AddCountry(country);
             continent.DeleteCountry(country);
             Action act = () => continent.DeleteCountry(country);
             act.Should().Throw<ArgumentException>().WithMessage("country is not in Azië");
@@ -69,7 +72,7 @@ namespace DomainLayerTests
         {
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent);
-            continent.AddCountry(country.Name, country.Population, country.Surface);
+            continent.AddCountry(country);
             Action act = () => continent.DeleteCountry(country);
             act.Should().NotThrow();
         }

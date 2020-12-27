@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataLayer.Migrations.GeoServiceTest
+namespace DataLayer.Migrations
 {
-    public partial class initGeoServiceDB : Migration
+    public partial class InitGeoService : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,6 +54,30 @@ namespace DataLayer.Migrations.GeoServiceTest
                 });
 
             migrationBuilder.CreateTable(
+                name: "CountryRiver",
+                columns: table => new
+                {
+                    CountryId = table.Column<long>(type: "bigint", nullable: false),
+                    RiverId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CountryRiver", x => new { x.CountryId, x.RiverId });
+                    table.ForeignKey(
+                        name: "FK_CountryRiver_DCountry_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "DCountry",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CountryRiver_Rivers_RiverId",
+                        column: x => x.RiverId,
+                        principalTable: "Rivers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DCity",
                 columns: table => new
                 {
@@ -80,29 +104,10 @@ namespace DataLayer.Migrations.GeoServiceTest
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DCountryDRiver",
-                columns: table => new
-                {
-                    CountriesId = table.Column<long>(type: "bigint", nullable: false),
-                    RiversId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DCountryDRiver", x => new { x.CountriesId, x.RiversId });
-                    table.ForeignKey(
-                        name: "FK_DCountryDRiver_DCountry_CountriesId",
-                        column: x => x.CountriesId,
-                        principalTable: "DCountry",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DCountryDRiver_Rivers_RiversId",
-                        column: x => x.RiversId,
-                        principalTable: "Rivers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_CountryRiver_RiverId",
+                table: "CountryRiver",
+                column: "RiverId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DCity_DCountryId",
@@ -118,26 +123,21 @@ namespace DataLayer.Migrations.GeoServiceTest
                 name: "IX_DCountry_DContinentId",
                 table: "DCountry",
                 column: "DContinentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DCountryDRiver_RiversId",
-                table: "DCountryDRiver",
-                column: "RiversId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CountryRiver");
+
+            migrationBuilder.DropTable(
                 name: "DCity");
 
             migrationBuilder.DropTable(
-                name: "DCountryDRiver");
+                name: "Rivers");
 
             migrationBuilder.DropTable(
                 name: "DCountry");
-
-            migrationBuilder.DropTable(
-                name: "Rivers");
 
             migrationBuilder.DropTable(
                 name: "Continents");
