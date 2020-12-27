@@ -44,7 +44,7 @@ namespace DomainLayer
         public void AddCountry(int continentId, Country country) 
         {
             Continent continent = uow.Continents.GetContinent(continentId);
-            continent.AddCountry(country.Name, country.Population, country.Surface);
+            continent.AddCountry(country);
             uow.Continents.UpdateContinent(continent);
             uow.Complete();
         }
@@ -76,7 +76,7 @@ namespace DomainLayer
         public void AddCity(int continentId, int countryId, City city) 
         {
             Country country = GetCountry(continentId, countryId);
-            country.AddCity(city.Name, city.Population);
+            country.AddCity(city);
             uow.Continents.UpdateCountry(continentId,countryId,country);
             uow.Complete();
         }
