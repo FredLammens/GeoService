@@ -13,7 +13,28 @@ namespace DataLayer.Repositories
         {
             this.context = context;
         }
+
         public void AddRiver(River river)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteRiver(int riverId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public River GetRiver(int riverId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool isInRivers(int riverId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRiver(int riverId, River river)
         {
             throw new NotImplementedException();
         }

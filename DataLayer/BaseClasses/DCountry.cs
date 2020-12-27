@@ -32,7 +32,7 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Rivers of country
         /// </summary>
-        public List<DRiver> Rivers { get; set; }
+        public List<CountryRiver> Rivers { get; set; }
         /// <summary>
         /// Data Cities of country
         /// </summary>
@@ -46,12 +46,14 @@ namespace DataLayer.BaseClasses
 
         }
 
-        public DCountry(uint id, string name, uint population, float surface)
+        public DCountry(string name, uint population, float surface, List<CountryRiver> rivers, List<DCity> cities, List<DCity> capitals)
         {
-            Id = id;
             Name = name;
             Population = population;
             Surface = surface;
+            Rivers = rivers;
+            Cities = cities;
+            Capitals = capitals;
         }
     }
 }

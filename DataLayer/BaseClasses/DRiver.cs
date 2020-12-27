@@ -27,21 +27,17 @@ namespace DataLayer.BaseClasses
         /// Data List of countries that river is in.
         /// </summary>
         [Required]
-        public List<DCountry> Countries { get; set; } = new List<DCountry>();
+        public List<CountryRiver> Countries { get; set; }
 
         public DRiver()
         {
 
         }
-        public DRiver(uint id, string name, double length)
+
+        public DRiver(string name, double length, List<CountryRiver> countries)
         {
-            Id = id;
             Name = name;
             Length = length;
-        }
-
-        public DRiver(uint id, string name, double length, List<DCountry> countries) : this(id, name, length)
-        {
             Countries = countries;
         }
     }
