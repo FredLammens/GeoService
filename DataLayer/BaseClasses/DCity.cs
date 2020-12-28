@@ -29,12 +29,5 @@ namespace DataLayer.BaseClasses
         {
 
         }
-
-        public DCity(uint id, string name, uint population)
-        {
-            Id = id;
-            Name = name;
-            Population = population;
-        }
     }
 }

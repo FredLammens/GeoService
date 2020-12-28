@@ -32,16 +32,5 @@ namespace DataLayer.BaseClasses
 
         public DContinent() { }
 
-        public DContinent(uint id, string name, ulong population)
-        {
-            Id = id;
-            Name = name;
-            Population = population;
-        }
-
-        public DContinent(uint id, string name, ulong population, List<DCountry> countries) : this(id, name, population)
-        {
-            Countries = countries;
-        }
     }
 }

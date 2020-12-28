@@ -1,4 +1,5 @@
-﻿using DomainLayer.BaseClasses;
+﻿using DataLayer.BaseClasses;
+using DomainLayer.BaseClasses;
 using DomainLayer.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace DataLayer.Repositories
 
         public void AddContinent(Continent continent)
         {
-            throw new NotImplementedException();
+
         }
 
         public void DeleteContinent(int continentId)

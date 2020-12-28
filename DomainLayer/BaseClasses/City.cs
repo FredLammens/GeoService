@@ -34,9 +34,7 @@ namespace DomainLayer.BaseClasses
         public Country BelongsTo { get => _belongsTo;
             private set 
             {
-                if (value == null)
-                    throw new ArgumentException("City needs to belong to country.");
-                _belongsTo = value;
+                _belongsTo = value ?? throw new ArgumentException("City needs to belong to country.");
             }
         }
         /// <summary>

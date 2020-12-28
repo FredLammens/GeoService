@@ -44,9 +44,8 @@ namespace DomainLayer.BaseClasses
         /// Continent country belongs to
         /// </summary>
         public Continent Continent { get => _continent; 
-            set { 
-                if (value == null) throw new ArgumentException("continent can't be null.");
-                _continent = value;
+            set {
+                _continent = value ?? throw new ArgumentException("continent can't be null.");
             } 
         }
 

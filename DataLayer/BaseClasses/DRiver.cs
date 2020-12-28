@@ -33,12 +33,5 @@ namespace DataLayer.BaseClasses
         {
 
         }
-
-        public DRiver(string name, double length, List<CountryRiver> countries)
-        {
-            Name = name;
-            Length = length;
-            Countries = countries;
-        }
     }
 }

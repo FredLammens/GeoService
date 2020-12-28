@@ -10,6 +10,5 @@ namespace DataLayer.BaseClasses
         public DCountry Country { get; set; }
         public uint RiverId { get; set; }
         public DRiver River { get; set; }
-
     }
 }

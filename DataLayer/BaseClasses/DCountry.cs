@@ -45,15 +45,5 @@ namespace DataLayer.BaseClasses
         {
 
         }
-
-        public DCountry(string name, uint population, float surface, List<CountryRiver> rivers, List<DCity> cities, List<DCity> capitals)
-        {
-            Name = name;
-            Population = population;
-            Surface = surface;
-            Rivers = rivers;
-            Cities = cities;
-            Capitals = capitals;
-        }
     }
 }
