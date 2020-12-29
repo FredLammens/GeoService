@@ -33,35 +33,6 @@ namespace DataLayer.Migrations
                     b.ToTable("CountryRiver");
                 });
 
-            modelBuilder.Entity("DataLayer.BaseClasses.DCity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
-
-                    b.Property<long?>("DCountryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DCountryId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Population")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DCountryId");
-
-                    b.HasIndex("DCountryId1");
-
-                    b.ToTable("DCity");
-                });
-
             modelBuilder.Entity("DataLayer.BaseClasses.DContinent", b =>
                 {
                     b.Property<long>("Id")
@@ -88,7 +59,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
-                    b.Property<long?>("DContinentId")
+                    b.Property<long>("ContinentId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -103,7 +74,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DContinentId");
+                    b.HasIndex("ContinentId");
 
                     b.ToTable("DCountry");
                 });
@@ -146,22 +117,15 @@ namespace DataLayer.Migrations
                     b.Navigation("River");
                 });
 
-            modelBuilder.Entity("DataLayer.BaseClasses.DCity", b =>
-                {
-                    b.HasOne("DataLayer.BaseClasses.DCountry", null)
-                        .WithMany("Capitals")
-                        .HasForeignKey("DCountryId");
-
-                    b.HasOne("DataLayer.BaseClasses.DCountry", null)
-                        .WithMany("Cities")
-                        .HasForeignKey("DCountryId1");
-                });
-
             modelBuilder.Entity("DataLayer.BaseClasses.DCountry", b =>
                 {
-                    b.HasOne("DataLayer.BaseClasses.DContinent", null)
+                    b.HasOne("DataLayer.BaseClasses.DContinent", "Continent")
                         .WithMany("Countries")
-                        .HasForeignKey("DContinentId");
+                        .HasForeignKey("ContinentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Continent");
                 });
 
             modelBuilder.Entity("DataLayer.BaseClasses.DContinent", b =>
@@ -171,10 +135,6 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.BaseClasses.DCountry", b =>
                 {
-                    b.Navigation("Capitals");
-
-                    b.Navigation("Cities");
-
                     b.Navigation("Rivers");
                 });
 

@@ -40,17 +40,17 @@ namespace DataLayer.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Population = table.Column<long>(type: "bigint", nullable: false),
                     Surface = table.Column<float>(type: "real", nullable: false),
-                    DContinentId = table.Column<long>(type: "bigint", nullable: true)
+                    ContinentId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DCountry", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DCountry_Continents_DContinentId",
-                        column: x => x.DContinentId,
+                        name: "FK_DCountry_Continents_ContinentId",
+                        column: x => x.ContinentId,
                         principalTable: "Continents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,52 +77,15 @@ namespace DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DCity",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Population = table.Column<long>(type: "bigint", nullable: false),
-                    DCountryId = table.Column<long>(type: "bigint", nullable: true),
-                    DCountryId1 = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DCity", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DCity_DCountry_DCountryId",
-                        column: x => x.DCountryId,
-                        principalTable: "DCountry",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DCity_DCountry_DCountryId1",
-                        column: x => x.DCountryId1,
-                        principalTable: "DCountry",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_CountryRiver_RiverId",
                 table: "CountryRiver",
                 column: "RiverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DCity_DCountryId",
-                table: "DCity",
-                column: "DCountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DCity_DCountryId1",
-                table: "DCity",
-                column: "DCountryId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DCountry_DContinentId",
+                name: "IX_DCountry_ContinentId",
                 table: "DCountry",
-                column: "DContinentId");
+                column: "ContinentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -131,13 +94,10 @@ namespace DataLayer.Migrations
                 name: "CountryRiver");
 
             migrationBuilder.DropTable(
-                name: "DCity");
+                name: "DCountry");
 
             migrationBuilder.DropTable(
                 name: "Rivers");
-
-            migrationBuilder.DropTable(
-                name: "DCountry");
 
             migrationBuilder.DropTable(
                 name: "Continents");

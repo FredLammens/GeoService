@@ -7,7 +7,63 @@ namespace DataLayer.BaseClasses
 {
     public class Mapper
     {
-        public static DRiver FromRiverToDRiver(River river) 
+        #region  from Database to Domain
+        #region River TODO
+        public static River FromDRiverToRiver(DRiver river)
+        {
+            //return new River(river.Name, river.Length, river.Countries[0].Country);
+            throw new NotImplementedException();
+        }
+        #endregion
+        public static Continent FromDContinentToContinent(DContinent dContinent)
+        {
+            Continent continent = new Continent(dContinent.Name)
+            {
+                Id = dContinent.Id,
+            };
+            if (dContinent.Countries.Count > 0)
+            {
+                foreach (DCountry dCountry in dContinent.Countries)
+                {
+                    Country toAdd = new Country(dCountry.Name, dCountry.Population, dCountry.Surface, continent) { Id = dCountry.Id };
+                    continent.AddCountry(toAdd);
+                }
+            }
+            return continent;
+        }
+        public static Country FromDCountryToCountry(DCountry dCountry)
+        {
+            Country country = new Country(dCountry.Name, dCountry.Population, dCountry.Surface, FromDContinentToContinent(dCountry.Continent)) { Id = dCountry.Id };
+            // Todo: Check if city isnt in capital catch?
+            if (dCountry.Capitals.Count > 0)
+            {
+                foreach (DCity dCity in dCountry.Capitals)
+                {
+                    City toAdd = new City(dCity.Name, dCity.Population, country) { Id = dCity.Id, CapitalFrom = country };
+                    country.AddCaptial(toAdd);
+                }
+            }
+            if (dCountry.Cities.Count > 0)
+            {
+                foreach (DCity dCity in dCountry.Cities)
+                {
+                    City toAdd = new City(dCity.Name, dCity.Population, country) { Id = dCity.Id };
+                    country.AddCity(toAdd);
+                }
+            }
+            return country;
+        }
+        public static City FromDCityToCity(DCity dCity)
+        {
+            City city = new City(dCity.Name, dCity.Population, FromDCountryToCountry(dCity.BelongsTo)) { Id = dCity.Id };
+            if (dCity.CapitalFrom != null)
+                city.CapitalFrom = FromDCountryToCountry(dCity.CapitalFrom);
+            return city;
+        }
+        #endregion
+        #region from Domain to Database
+        #region River TODO
+        public static DRiver FromRiverToDRiver(River river)
         {
             DRiver dataRiver = new DRiver
             {
@@ -18,7 +74,7 @@ namespace DataLayer.BaseClasses
             return dataRiver;
         }
         //country moet geen rivieren hebben rivier moet minstens 1 country hebben
-        public static List<CountryRiver> FromCountryToCountryRiver(IReadOnlyList<Country> countries, River river) 
+        public static List<CountryRiver> FromCountryToCountryRiver(IReadOnlyList<Country> countries, River river)
         {
             List<CountryRiver> countrieRivers = new List<CountryRiver>();
             foreach (Country country in countries)
@@ -38,49 +94,39 @@ namespace DataLayer.BaseClasses
             }
             return countrieRivers;
         }
-        public static DCountry FromCountryToDCountry(Country country) 
-        {
-            DCountry dataCountry = new DCountry
-            {
-                Name = country.Name,
-                Population = country.Population,
-                Surface = country.Surface
-            };
-            return dataCountry;
-        }
-        public static DContinent FromContinentToDContinent(Continent continent) 
+        #endregion
+        public static DContinent FromContinentToDContinent(Continent continent)
         {
             DContinent dContinent = new DContinent
             {
                 Name = continent.Name,
                 Population = continent.Population
             };
-            List<DCountry> toAdd = new List<DCountry>();
-            foreach (Country country in continent.Countries)
+            return dContinent;
+        }
+        public static DCountry FromCountryToDCountry(Country country)
+        {
+            DCountry dataCountry = new DCountry
             {
-                toAdd.Add(FromCountryToDCountry(country));
-            }
-            dContinent.Countries = toAdd;
-            return dContinent;        
-        }
-        public static River FromDRiverToRiver(DRiver river) 
-        {
-            //return new River(river.Name, river.Length, river.Countries[0].Country);
-            throw new NotImplementedException();
-        }
-        public static Country FromDCountryToCountry(DCountry dCountry) 
-        {
-            //return new Country(dCountry.Name,dCountry.Population,dCountry.Surface,)
-            throw new NotImplementedException();
-        }
-        public static Continent FromDContinentToContinent(DContinent dContinent) 
-        {
-            Continent c =  new Continent(dContinent.Name)
-            {
-                Id = dContinent.Id,
+                Name = country.Name,
+                Population = country.Population,
+                Surface = country.Surface,
+                Continent = FromContinentToDContinent(country.Continent)
             };
-            //c.AddCountry(dContinent.Countries)
-            throw new NotImplementedException();
+            return dataCountry;
         }
+        public static DCity FromCityToDCity(City city)
+        {
+            DCity dCity = new DCity
+            {
+                Name = city.Name,
+                Population = city.Population,
+                BelongsTo = FromCountryToDCountry(city.BelongsTo)
+            };
+            if (city.CapitalFrom != null)
+                dCity.CapitalFrom = FromCountryToDCountry(city.CapitalFrom);
+            return dCity;
+        }
+        #endregion
     }
 }

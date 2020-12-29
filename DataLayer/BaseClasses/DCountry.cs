@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.BaseClasses
@@ -36,14 +37,23 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Cities of country
         /// </summary>
+        [NotMapped] //Todo: check ??
         public List<DCity> Cities { get; set; }
         /// <summary>
         /// Data capitals of country
         /// </summary>
+        [NotMapped] //Todo: check??
         public List<DCity> Capitals { get; set; }
+
+        /// <summary>
+        /// Continent where country belongs to
+        /// </summary>
+        [Required]
+        public DContinent Continent { get; set; }
         public DCountry()
         {
 
         }
+
     }
 }
