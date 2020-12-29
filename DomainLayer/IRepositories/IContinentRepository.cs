@@ -7,6 +7,7 @@ namespace DomainLayer.IRepositories
 {
     public interface IContinentRepository
     {
+        #region continent
         /// <summary>
         /// Add continent to database. if not already present
         /// </summary>
@@ -33,6 +34,56 @@ namespace DomainLayer.IRepositories
         /// </summary>
         /// <param name="continentId">id of continent to remove</param>
         void DeleteContinent(int continentId);
+        /// <summary>
+        /// Get's country from country id from continent gotten with id
+        /// </summary>
+        /// <param name="continentId">continent id to get country from</param>
+        /// <param name="countryId">country id to get</param>
+        /// <returns></returns>
+        #endregion
+        #region Country
+        Country GetCountry(int continentId, int countryId);
+        /// <summary>
+        /// checks if country is part of continent
+        /// </summary>
+        /// <param name="continentId">continent id to check </param>
+        /// <param name="countryId">country id</param>
+        /// <returns></returns>
+        bool isInCountry(int continentId, int countryId);
+        /// <summary>
+        /// Updates country from continent in DB
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="countryId">country id to update</param>
+        /// <param name="country">update object</param>
+        void UpdateCountry(int continentId, int countryId, Country country);
+        /// <summary>
+        /// Gets city from database from country from continent
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="countryId">country id</param>
+        /// <param name="cityId">city id to get</param>
+        /// <returns></returns>
+        #endregion
+        #region City
+        City GetCity(int continentId, int countryId, int cityId);
+        /// <summary>
+        /// checks if city is part of country that is part of continent
+        /// </summary>
+        /// <param name="continentId"></param>
+        /// <param name="countryId"></param>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        bool isInCity(int continentId, int countryId, int cityId);
+        /// <summary>
+        /// Updates city form database from country from continent
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="countryId">country id</param>
+        /// <param name="cityId">city id</param>
+        /// <param name="city">city object to update</param>
+        void UpdateCity(int continentId, int countryId, int cityId, City city);
+        #endregion
 
     }
 }

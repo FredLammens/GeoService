@@ -55,6 +55,41 @@ namespace DataLayer.Repositories
 
         public bool isInContinents(int continentId)
         {
+            return context.Continents.Any(c => c.Id == continentId);
+        }
+        public Country GetCountry(int continentId, int countryId)
+        {
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in DB.");
+            DContinent continent = context.Continents
+                                           .Include(continent => continent.Countries)
+                                           .Single(c => c.Id == continentId);
+            DCountry country = continent.Countries.SingleOrDefault(c => c.Id == countryId);
+            return Mapper.FromDCountryToCountry(country);
+        }
+
+        public bool isInCountry(int continentId, int countryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCountry(int continentId, int countryId, Country country)
+        {
+            throw new NotImplementedException();
+        }
+
+        public City GetCity(int continentId, int countryId, int cityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool isInCity(int continentId, int countryId, int cityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCity(int continentId, int countryId, int cityId, City city)
+        {
             throw new NotImplementedException();
         }
     }

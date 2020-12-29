@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataLayer.Migrations.GeoServiceTest
+namespace DataLayer.Migrations
 {
-    [DbContext(typeof(GeoServiceTestContext))]
-    [Migration("20201229202430_initGeoTestService")]
-    partial class initGeoTestService
+    [DbContext(typeof(GeoServiceContext))]
+    [Migration("20201229204938_initGeoService")]
+    partial class initGeoService
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
