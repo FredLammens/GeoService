@@ -6,9 +6,9 @@ namespace DataLayer.BaseClasses
 {
     public class CountryRiver
     {
-        public uint CountryId { get; set; }
+        public string CountryName { get; set; }
         public DCountry Country { get; set; }
-        public uint RiverId { get; set; }
+        public string RiverName { get; set; }
         public DRiver River { get; set; }
     }
 }

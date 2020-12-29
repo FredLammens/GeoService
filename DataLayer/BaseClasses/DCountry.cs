@@ -11,12 +11,12 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data CountryId
         /// </summary>
-        [Key]
+        [Required]
         public uint Id { get; set; }
         /// <summary>
         /// Data Country name = unique
         /// </summary>
-        [Required]
+        [Key]
         public string Name { get; set; }
         /// <summary>
         /// Data Population of country

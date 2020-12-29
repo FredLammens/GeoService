@@ -48,9 +48,8 @@ namespace DomainLayer.BaseClasses
         /// <param name="population"></param>
         /// <param name="belongsTo"></param>
 
-        public City( uint id, string name, uint population, Country belongsTo)
+        public City(string name, uint population, Country belongsTo)
         {
-            Id = id;
             Name = name;
             Population = population;
             BelongsTo = belongsTo;

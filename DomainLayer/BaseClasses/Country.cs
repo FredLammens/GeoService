@@ -71,9 +71,8 @@ namespace DomainLayer.BaseClasses
         /// <param name="population">Population of country</param>
         /// <param name="surface">Surface area of country</param>
         /// <param name="continent">continent country belongs to</param>
-        public Country(uint id, string name, uint population, float surface, Continent continent)
+        public Country(string name, uint population, float surface, Continent continent)
         {
-            Id = id;
             Name = name;
             Population = population;
             Surface = surface;
@@ -94,6 +93,7 @@ namespace DomainLayer.BaseClasses
             //check population city doesnt exceed population country
             if (!IsPopulationCorrect(city.Population))
                 throw new Exception($"population: {city.Population} would exceed country's population: {Population}.");
+            city.Id = (uint)(_cities.Count + 1);
             _cities.Add(city);
         }
         /// <summary>
@@ -160,6 +160,7 @@ namespace DomainLayer.BaseClasses
             bool isInRivers = _rivers.Contains(river);
             if (isInRivers)
                 throw new ArgumentException($"{river.Name} is already in {this.Name}");
+            river.Id = (uint)(_rivers.Count + 1);
             _rivers.Add(river);
         }
         /// <summary>

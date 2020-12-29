@@ -11,12 +11,12 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Id of city
         /// </summary>
-        [Key]
+        [Required]
         public uint Id { get; set; }
         /// <summary>
         /// Data Name of city
         /// </summary>
-        [Required]
+        [Key]
         public string Name { get; set; }
         /// <summary>
         /// Data Population of city

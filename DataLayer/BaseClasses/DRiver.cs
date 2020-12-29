@@ -10,12 +10,12 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Id of river
         /// </summary>
-        [Key]
+        [Required]
         public uint Id { get; set; }
         /// <summary>
         /// Data Name of River
         /// </summary>
-        [Required]
+        [Key]
         public string Name { get; set; }
         /// <summary>
         /// Data Length of river in m
