@@ -16,6 +16,7 @@ namespace DataLayer.Repositories
         {
             this.context = context;
         }
+        #region Continent
         public Continent GetContinent(int id)
         {
             if (!context.Continents.Any(c => c.Id == id))
@@ -57,7 +58,59 @@ namespace DataLayer.Repositories
         {
             return context.Continents.Any(c => c.Id == continentId);
         }
+        #endregion
+        #region Country
         public Country GetCountry(int continentId, int countryId)
+        {
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in DB.");
+            DContinent continent = context.Continents
+                                           .Include(continent => continent.Countries)
+                                           .AsNoTracking()
+                                           .Single(c => c.Id == continentId);
+            DCountry country = continent.Countries.SingleOrDefault(c => c.Id == countryId);
+            if (country == null)
+                throw new Exception($"country with id: {countryId} not in DB.");
+            return Mapper.FromDCountryToCountry(country);
+        }
+
+        public bool isInCountry(int continentId, int countryId)
+        {
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in DB.");
+            DContinent continent = context.Continents
+                                           .Include(continent => continent.Countries)
+                                           .AsNoTracking()
+                                           .Single(c => c.Id == continentId);
+            return continent.Countries.Any(c => c.Id == countryId);
+        }
+
+        public void UpdateCountry(int continentId, int countryId, Country country)
+        {
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in DB.");
+            DContinent continent = context.Continents
+                                           .Include(continent => continent.Countries)
+                                           .Single(c => c.Id == continentId);
+            DCountry countryToUpdate = continent.Countries.SingleOrDefault(c => c.Id == countryId);
+            if (country == null)
+                throw new Exception($"country with id: {countryId} not in DB.");
+            countryToUpdate.Id = country.Id;
+            countryToUpdate.Name = country.Name;
+            countryToUpdate.Population = country.Population;
+            countryToUpdate.Surface = country.Surface;
+        }
+        public void AddCountry(int continentId, Country country)
+        {
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in DB.");
+            DContinent continent = context.Continents
+                                           .Include(continent => continent.Countries)
+                                           .Single(c => c.Id == continentId);
+            continent.Countries.Add(Mapper.FromCountryToDCountry(country));
+        }
+
+        public void DeleteCountry(int continentId, int countryId)
         {
             if (!context.Continents.Any(c => c.Id == continentId))
                 throw new Exception($"Continent with id: {continentId} not in DB.");
@@ -65,19 +118,10 @@ namespace DataLayer.Repositories
                                            .Include(continent => continent.Countries)
                                            .Single(c => c.Id == continentId);
             DCountry country = continent.Countries.SingleOrDefault(c => c.Id == countryId);
-            return Mapper.FromDCountryToCountry(country);
+            continent.Countries.Remove(country);
         }
-
-        public bool isInCountry(int continentId, int countryId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCountry(int continentId, int countryId, Country country)
-        {
-            throw new NotImplementedException();
-        }
-
+        #endregion
+        #region City
         public City GetCity(int continentId, int countryId, int cityId)
         {
             throw new NotImplementedException();
@@ -92,5 +136,17 @@ namespace DataLayer.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public void AddCity(int continentId, int countryId, City city)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCity(int continentId, int countryId, int cityId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

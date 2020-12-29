@@ -58,14 +58,26 @@ namespace DomainLayer.IRepositories
         /// <param name="country">update object</param>
         void UpdateCountry(int continentId, int countryId, Country country);
         /// <summary>
+        /// Adds country to continent in DB
+        /// </summary>
+        /// <param name="continentId">continent id to add to</param>
+        /// <param name="country">country object to add</param>
+        void AddCountry(int continentId, Country country);
+        /// <summary>
+        /// Removes country from continent in DB
+        /// </summary>
+        /// <param name="continentId"></param>
+        /// <param name="countryId"></param>
+        void DeleteCountry(int continentId, int countryId);
+        #endregion
+        #region City
+        /// <summary>
         /// Gets city from database from country from continent
         /// </summary>
         /// <param name="continentId">continent id</param>
         /// <param name="countryId">country id</param>
         /// <param name="cityId">city id to get</param>
         /// <returns></returns>
-        #endregion
-        #region City
         City GetCity(int continentId, int countryId, int cityId);
         /// <summary>
         /// checks if city is part of country that is part of continent
@@ -83,6 +95,20 @@ namespace DomainLayer.IRepositories
         /// <param name="cityId">city id</param>
         /// <param name="city">city object to update</param>
         void UpdateCity(int continentId, int countryId, int cityId, City city);
+        /// <summary>
+        /// Adds city to continent to database
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="countryId">country id to add to</param>
+        /// <param name="city">city object to add</param>
+        void AddCity(int continentId, int countryId, City city);
+        /// <summary>
+        /// Deletes city from continent of database
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="countryId">country id to remove from</param>
+        /// <param name="cityId">city id to remove</param>
+        void DeleteCity(int continentId, int countryId, int cityId);
         #endregion
 
     }

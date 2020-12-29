@@ -43,39 +43,31 @@ namespace DomainLayer
         }
         public void AddCountry(int continentId, Country country) 
         {
-            //Continent continent = uow.Continents.GetContinent(continentId);
-            //continent.AddCountry(country);
-            //uow.Continents.UpdateContinent(continent);
-            //uow.Complete();
-            throw new NotImplementedException();
+            uow.Continents.AddCountry(continentId, country);
+            uow.Complete();
         }
         public Country GetCountry(int continentId, int countryId) 
         {
-            //return uow.Continents.GetCountry(continentId, countryId);
-            throw new NotImplementedException();
+            return uow.Continents.GetCountry(continentId, countryId);
         }
         public void DeleteCountry(int continentId, int countryId) 
         {
-            //Continent continent = uow.Continents.GetContinent(continentId);
-            //continent.DeleteCountry(GetCountry(continentId, countryId));
-            //uow.Continents.UpdateContinent(continent);
-            //uow.Complete();
-            throw new NotImplementedException();
+            uow.Continents.DeleteCountry(continentId,countryId);
+            uow.Complete();
         }
         public void UpsertCountry(int continentId, int countryId, Country country) 
         {
-            ////if Country is not in DB add 
-            //if (!uow.Continents.isInCountry(continentId, countryId))
-            //{
-            //    AddCountry(continentId, country);
-            //    uow.Complete();
-            //}
-            //else //if Country is in DB update
-            //{
-            //    uow.Continents.UpdateCountry(continentId, countryId, country);
-            //    uow.Complete();
-            //}          
-            throw new NotImplementedException();
+            //if Country is not in DB add 
+            if (!uow.Continents.isInCountry(continentId, countryId))
+            {
+                AddCountry(continentId, country);
+                uow.Complete();
+            }
+            else //if Country is in DB update
+            {
+                uow.Continents.UpdateCountry(continentId, countryId, country);
+                uow.Complete();
+            }
         }
         public void AddCity(int continentId, int countryId, City city) 
         {
