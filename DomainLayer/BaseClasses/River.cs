@@ -41,8 +41,9 @@ namespace DomainLayer.BaseClasses
         /// <param name="name">Name of river</param>
         /// <param name="length">length of river in m</param>
         /// <param name="country">country river is in</param>
-        public River(string name, double length, Country country)
+        public River(uint id, string name, double length, Country country)
         {
+            Id = id;
             Name = name;
             Length = length;
             AddCountry(country);

@@ -71,8 +71,9 @@ namespace DomainLayer.BaseClasses
         /// <param name="population">Population of country</param>
         /// <param name="surface">Surface area of country</param>
         /// <param name="continent">continent country belongs to</param>
-        public Country(string name, uint population, float surface, Continent continent)
+        public Country(uint id, string name, uint population, float surface, Continent continent)
         {
+            Id = id;
             Name = name;
             Population = population;
             Surface = surface;
