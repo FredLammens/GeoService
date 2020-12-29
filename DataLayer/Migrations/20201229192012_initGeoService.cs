@@ -2,7 +2,7 @@
 
 namespace DataLayer.Migrations
 {
-    public partial class InitGeoService : Migration
+    public partial class initGeoService : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DCountry",
+                name: "Countries",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
@@ -44,13 +44,40 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DCountry", x => x.Id);
+                    table.PrimaryKey("PK_Countries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DCountry_Continents_ContinentId",
+                        name: "FK_Countries_Continents_ContinentId",
                         column: x => x.ContinentId,
                         principalTable: "Continents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Population = table.Column<long>(type: "bigint", nullable: false),
+                    DCountryId = table.Column<long>(type: "bigint", nullable: true),
+                    DCountryId1 = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cities_Countries_DCountryId",
+                        column: x => x.DCountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cities_Countries_DCountryId1",
+                        column: x => x.DCountryId1,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,9 +91,9 @@ namespace DataLayer.Migrations
                 {
                     table.PrimaryKey("PK_CountryRiver", x => new { x.CountryId, x.RiverId });
                     table.ForeignKey(
-                        name: "FK_CountryRiver_DCountry_CountryId",
+                        name: "FK_CountryRiver_Countries_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "DCountry",
+                        principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -78,23 +105,36 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cities_DCountryId",
+                table: "Cities",
+                column: "DCountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cities_DCountryId1",
+                table: "Cities",
+                column: "DCountryId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Countries_ContinentId",
+                table: "Countries",
+                column: "ContinentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CountryRiver_RiverId",
                 table: "CountryRiver",
                 column: "RiverId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DCountry_ContinentId",
-                table: "DCountry",
-                column: "ContinentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Cities");
+
+            migrationBuilder.DropTable(
                 name: "CountryRiver");
 
             migrationBuilder.DropTable(
-                name: "DCountry");
+                name: "Countries");
 
             migrationBuilder.DropTable(
                 name: "Rivers");

@@ -17,6 +17,10 @@ namespace DataLayer
 
         public IRiversRepository Rivers { get; set; }
 
+        public ICountriesRepository Countries { get; set; }
+
+        public ICitiesRepository Cities { get; set; }
+
         public UnitOfWork(GeoServiceContext context)
         {
             this.context = context;

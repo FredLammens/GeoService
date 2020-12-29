@@ -43,71 +43,78 @@ namespace DomainLayer
         }
         public void AddCountry(int continentId, Country country) 
         {
-            Continent continent = uow.Continents.GetContinent(continentId);
-            continent.AddCountry(country);
-            uow.Continents.UpdateContinent(continent);
-            uow.Complete();
+            //Continent continent = uow.Continents.GetContinent(continentId);
+            //continent.AddCountry(country);
+            //uow.Continents.UpdateContinent(continent);
+            //uow.Complete();
+            throw new NotImplementedException();
         }
         public Country GetCountry(int continentId, int countryId) 
         {
-            return uow.Continents.GetCountry(continentId, countryId);
+            //return uow.Continents.GetCountry(continentId, countryId);
+            throw new NotImplementedException();
         }
         public void DeleteCountry(int continentId, int countryId) 
         {
-            Continent continent = uow.Continents.GetContinent(continentId);
-            continent.DeleteCountry(GetCountry(continentId, countryId));
-            uow.Continents.UpdateContinent(continent);
-            uow.Complete();
+            //Continent continent = uow.Continents.GetContinent(continentId);
+            //continent.DeleteCountry(GetCountry(continentId, countryId));
+            //uow.Continents.UpdateContinent(continent);
+            //uow.Complete();
+            throw new NotImplementedException();
         }
         public void UpsertCountry(int continentId, int countryId, Country country) 
         {
-            //if Country is not in DB add 
-            if (!uow.Continents.isInCountry(continentId, countryId))
-            {
-                AddCountry(continentId, country);
-                uow.Complete();
-            }
-            else //if Country is in DB update
-            {
-                uow.Continents.UpdateCountry(continentId, countryId, country);
-                uow.Complete();
-            }          
+            ////if Country is not in DB add 
+            //if (!uow.Continents.isInCountry(continentId, countryId))
+            //{
+            //    AddCountry(continentId, country);
+            //    uow.Complete();
+            //}
+            //else //if Country is in DB update
+            //{
+            //    uow.Continents.UpdateCountry(continentId, countryId, country);
+            //    uow.Complete();
+            //}          
+            throw new NotImplementedException();
         }
         public void AddCity(int continentId, int countryId, City city) 
         {
-            Country country = GetCountry(continentId, countryId);
-            country.AddCity(city);
-            uow.Continents.UpdateCountry(continentId,countryId,country);
-            uow.Complete();
+            //Country country = GetCountry(continentId, countryId);
+            //country.AddCity(city);
+            //uow.Continents.UpdateCountry(continentId,countryId,country);
+            //uow.Complete();
+            throw new NotImplementedException();
         }
 
         public City GetCity(int continentId, int countryId, int cityId) 
         {
-            return uow.Continents.GetCity(continentId, countryId, cityId);
+            //return uow.Continents.GetCity(continentId, countryId, cityId);
+            throw new NotImplementedException();
         }
 
         public void DeleteCity(int continentId, int countryId, int cityId) 
         {
-            Country country = GetCountry(continentId, countryId);
-            country.RemoveCity(GetCity(continentId, countryId, cityId));
-            uow.Continents.UpdateCountry(continentId, countryId, country);
-            uow.Complete();
+            //Country country = GetCountry(continentId, countryId);
+            //country.RemoveCity(GetCity(continentId, countryId, cityId));
+            //uow.Continents.UpdateCountry(continentId, countryId, country);
+            //uow.Complete();
+            throw new NotImplementedException();
         }
 
         public void UpsertCity(int continentId, int countryId, int cityId, City city) 
         {
-            //if City is not in DB add 
-            if (!uow.Continents.isInCity(continentId, countryId, cityId))
-            {
-                AddCity(continentId, countryId, city);
-                uow.Complete();
-            }
-            else //if city is in DB update
-            { 
-                uow.Continents.UpdateCity(continentId, countryId, cityId, city);
-                uow.Complete();
-            }
-
+            ////if City is not in DB add 
+            //if (!uow.Continents.isInCity(continentId, countryId, cityId))
+            //{
+            //    AddCity(continentId, countryId, city);
+            //    uow.Complete();
+            //}
+            //else //if city is in DB update
+            //{ 
+            //    uow.Continents.UpdateCity(continentId, countryId, cityId, city);
+            //    uow.Complete();
+            //}
+            throw new NotImplementedException();
         }
 
         public void AddRiver(River river) 

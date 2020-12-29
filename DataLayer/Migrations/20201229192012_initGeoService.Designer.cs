@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(GeoServiceContext))]
-    [Migration("20201229162141_InitGeoService")]
-    partial class InitGeoService
+    [Migration("20201229192012_initGeoService")]
+    partial class initGeoService
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,35 @@ namespace DataLayer.Migrations
                     b.HasIndex("RiverId");
 
                     b.ToTable("CountryRiver");
+                });
+
+            modelBuilder.Entity("DataLayer.BaseClasses.DCity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+
+                    b.Property<long?>("DCountryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DCountryId1")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Population")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DCountryId");
+
+                    b.HasIndex("DCountryId1");
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("DataLayer.BaseClasses.DContinent", b =>
@@ -78,7 +107,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("ContinentId");
 
-                    b.ToTable("DCountry");
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("DataLayer.BaseClasses.DRiver", b =>
@@ -119,6 +148,17 @@ namespace DataLayer.Migrations
                     b.Navigation("River");
                 });
 
+            modelBuilder.Entity("DataLayer.BaseClasses.DCity", b =>
+                {
+                    b.HasOne("DataLayer.BaseClasses.DCountry", null)
+                        .WithMany("Capitals")
+                        .HasForeignKey("DCountryId");
+
+                    b.HasOne("DataLayer.BaseClasses.DCountry", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("DCountryId1");
+                });
+
             modelBuilder.Entity("DataLayer.BaseClasses.DCountry", b =>
                 {
                     b.HasOne("DataLayer.BaseClasses.DContinent", "Continent")
@@ -137,6 +177,10 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.BaseClasses.DCountry", b =>
                 {
+                    b.Navigation("Capitals");
+
+                    b.Navigation("Cities");
+
                     b.Navigation("Rivers");
                 });
 

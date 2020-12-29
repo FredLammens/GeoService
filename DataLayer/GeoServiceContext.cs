@@ -11,6 +11,14 @@ namespace DataLayer
         /// </summary>
         public DbSet<DContinent> Continents { get; set; }
         /// <summary>
+        /// DbSet that contains countries from database
+        /// </summary>
+        public DbSet<DCountry> Countries { get; set; }
+        /// <summary>
+        /// Dbset that contains cities from database
+        /// </summary>
+        public DbSet<DCity> Cities { get; set; }
+        /// <summary>
         /// DbSet that contains rivers from database
         /// </summary>
         public DbSet<DRiver> Rivers { get; set; }

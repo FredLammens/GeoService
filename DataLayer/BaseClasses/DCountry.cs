@@ -37,12 +37,10 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Cities of country
         /// </summary>
-        [NotMapped] //Todo: check ??
         public List<DCity> Cities { get; set; }
         /// <summary>
         /// Data capitals of country
         /// </summary>
-        [NotMapped] //Todo: check??
         public List<DCity> Capitals { get; set; }
 
         /// <summary>
