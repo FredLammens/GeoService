@@ -106,7 +106,10 @@ namespace DataLayer.Repositories
             DContinent continent = context.Continents
                                            .Include(continent => continent.Countries)
                                            .Single(c => c.Id == continentId);
-            continent.Countries.Add(Mapper.FromCountryToDCountry(country));
+            DCountry toAdd = Mapper.FromCountryToDCountry(country);
+            if (toAdd.Id == 0)
+                toAdd.Id = continent.Countries.Count;
+            continent.Countries.Add(toAdd);
         }
 
         public void DeleteCountry(int continentId, int countryId)

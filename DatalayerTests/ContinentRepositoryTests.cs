@@ -131,7 +131,7 @@ namespace DatalayerTests
             uow.Complete();
             uow.Continents.AddCountry(1, country);
             uow.Complete();
-            Action act = () => uow.Continents.DeleteCountry(1, 1);
+            Action act = () => uow.Continents.DeleteCountry(1, 0);
             act.Should().NotThrow();
             act = () => uow.Continents.GetCountry(1, 1);
             act.Should().Throw<Exception>().WithMessage("Country with id: 1 not in DB.");
