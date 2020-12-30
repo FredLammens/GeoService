@@ -90,7 +90,7 @@ namespace DatalayerTests
             Continent returned = uow.Continents.GetContinent(1);
             returned.Name.Should().Be("Azië");
             returned.Countries.Count.Should().Be(1);
-            returned.Countries[0].Id.Should().Be(1);
+            returned.Countries[0].Id.Should().Be(0);
             returned.Countries[0].Name.Should().Be("vietnam");
             returned.Countries[0].Population.Should().Be(95540000);
             returned.Countries[0].Surface.Should().Be(331.212f);
@@ -159,7 +159,7 @@ namespace DatalayerTests
             UnitOfWork uow = new UnitOfWork(new GeoServiceTestContext(false));
             Continent continent = new Continent("Azië");
             Country country = new Country("vietnam", 95540000, 331.212f, continent) {Id = 1};
-            Country toUpdate = new Country("vietnam", 126500000, 377930f, continent) {Id = 5 };
+            Country toUpdate = new Country("Japan", 126500000, 377930f, continent) {Id = 5 };
             uow.Continents.AddContinent(continent);
             uow.Complete();
             uow.Continents.AddCountry(1, country);
@@ -169,9 +169,10 @@ namespace DatalayerTests
             uow.Complete();
             Country updated = uow.Continents.GetCountry(1, 5);
             uow.Complete();
-            updated.Name.Should().Be("vietnam");
+            updated.Name.Should().Be("Japan");
             updated.Population.Should().Be(126500000);
             updated.Surface.Should().Be(377930f);
+            updated.Id.Should().Be(5);
         }
         [TestMethod]
         public void IsInCountryDatabaseNormalTest()

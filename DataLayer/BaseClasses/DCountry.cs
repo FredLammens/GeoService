@@ -8,6 +8,8 @@ namespace DataLayer.BaseClasses
 {
     public class DCountry
     {
+        [Key]
+        public int Key { get; set; }
         /// <summary>
         /// Data CountryId
         /// </summary>
@@ -16,7 +18,7 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Country name = unique
         /// </summary>
-        [Key]
+        [Required]
         public string Name { get; set; }
         /// <summary>
         /// Data Population of country

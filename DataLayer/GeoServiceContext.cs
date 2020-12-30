@@ -75,15 +75,15 @@ namespace DataLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CountryRiver>()
-                 .HasKey(cr => new { cr.CountryName, cr.RiverName });
+                 .HasKey(cr => new { cr.CountryKey, cr.RiverKey });
             modelBuilder.Entity<CountryRiver>()
                 .HasOne(cr => cr.Country)
                 .WithMany(c => c.Rivers)
-                .HasForeignKey(cr => cr.CountryName);
+                .HasForeignKey(cr => cr.CountryKey);
             modelBuilder.Entity<CountryRiver>()
                 .HasOne(cr => cr.River)
                 .WithMany(r => r.Countries)
-                .HasForeignKey(cr => cr.RiverName);
+                .HasForeignKey(cr => cr.RiverKey);
         }
     }
 }

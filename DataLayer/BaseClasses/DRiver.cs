@@ -7,6 +7,8 @@ namespace DataLayer.BaseClasses
 {
     public class DRiver
     {
+        [Key]
+        public int Key { get; set; }
         /// <summary>
         /// Data Id of river
         /// </summary>
@@ -15,7 +17,7 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Name of River
         /// </summary>
-        [Key]
+        [Required]
         public string Name { get; set; }
         /// <summary>
         /// Data Length of river in m

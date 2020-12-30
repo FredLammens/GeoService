@@ -8,6 +8,8 @@ namespace DataLayer.BaseClasses
 {
     public class DCity
     {
+        [Key]
+        public int Key { get; set; }
         /// <summary>
         /// Data Id of city
         /// </summary>
@@ -16,7 +18,7 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Name of city
         /// </summary>
-        [Key]
+        [Required]
         public string Name { get; set; }
         /// <summary>
         /// Data Population of city

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataLayer.Migrations.GeoServiceTest
+namespace DataLayer.Migrations
 {
-    public partial class initGeoTestService : Migration
+    public partial class InitGeoService : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,7 +10,8 @@ namespace DataLayer.Migrations.GeoServiceTest
                 name: "Continents",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Population = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
                 },
@@ -23,28 +24,32 @@ namespace DataLayer.Migrations.GeoServiceTest
                 name: "Rivers",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Key = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Length = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rivers", x => x.Name);
+                    table.PrimaryKey("PK_Rivers", x => x.Key);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Key = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Population = table.Column<long>(type: "bigint", nullable: false),
                     Surface = table.Column<float>(type: "real", nullable: false),
-                    ContinentId = table.Column<long>(type: "bigint", nullable: false)
+                    ContinentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Name);
+                    table.PrimaryKey("PK_Countries", x => x.Key);
                     table.ForeignKey(
                         name: "FK_Countries_Continents_ContinentId",
                         column: x => x.ContinentId,
@@ -57,26 +62,28 @@ namespace DataLayer.Migrations.GeoServiceTest
                 name: "Cities",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Key = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Population = table.Column<long>(type: "bigint", nullable: false),
-                    DCountryName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DCountryName1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    DCountryKey = table.Column<int>(type: "int", nullable: true),
+                    DCountryKey1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cities", x => x.Name);
+                    table.PrimaryKey("PK_Cities", x => x.Key);
                     table.ForeignKey(
-                        name: "FK_Cities_Countries_DCountryName",
-                        column: x => x.DCountryName,
+                        name: "FK_Cities_Countries_DCountryKey",
+                        column: x => x.DCountryKey,
                         principalTable: "Countries",
-                        principalColumn: "Name",
+                        principalColumn: "Key",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cities_Countries_DCountryName1",
-                        column: x => x.DCountryName1,
+                        name: "FK_Cities_Countries_DCountryKey1",
+                        column: x => x.DCountryKey1,
                         principalTable: "Countries",
-                        principalColumn: "Name",
+                        principalColumn: "Key",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -84,35 +91,35 @@ namespace DataLayer.Migrations.GeoServiceTest
                 name: "CountryRiver",
                 columns: table => new
                 {
-                    CountryName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RiverName = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CountryKey = table.Column<int>(type: "int", nullable: false),
+                    RiverKey = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CountryRiver", x => new { x.CountryName, x.RiverName });
+                    table.PrimaryKey("PK_CountryRiver", x => new { x.CountryKey, x.RiverKey });
                     table.ForeignKey(
-                        name: "FK_CountryRiver_Countries_CountryName",
-                        column: x => x.CountryName,
+                        name: "FK_CountryRiver_Countries_CountryKey",
+                        column: x => x.CountryKey,
                         principalTable: "Countries",
-                        principalColumn: "Name",
+                        principalColumn: "Key",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CountryRiver_Rivers_RiverName",
-                        column: x => x.RiverName,
+                        name: "FK_CountryRiver_Rivers_RiverKey",
+                        column: x => x.RiverKey,
                         principalTable: "Rivers",
-                        principalColumn: "Name",
+                        principalColumn: "Key",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_DCountryName",
+                name: "IX_Cities_DCountryKey",
                 table: "Cities",
-                column: "DCountryName");
+                column: "DCountryKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_DCountryName1",
+                name: "IX_Cities_DCountryKey1",
                 table: "Cities",
-                column: "DCountryName1");
+                column: "DCountryKey1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Countries_ContinentId",
@@ -120,9 +127,9 @@ namespace DataLayer.Migrations.GeoServiceTest
                 column: "ContinentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryRiver_RiverName",
+                name: "IX_CountryRiver_RiverKey",
                 table: "CountryRiver",
-                column: "RiverName");
+                column: "RiverKey");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

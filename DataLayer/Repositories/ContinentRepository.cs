@@ -98,6 +98,7 @@ namespace DataLayer.Repositories
             countryToUpdate.Id = (int)country.Id;
             countryToUpdate.Population = country.Population;
             countryToUpdate.Surface = country.Surface;
+            countryToUpdate.Name = country.Name;
         }
         public void AddCountry(int continentId, Country country)
         {
