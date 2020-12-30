@@ -103,9 +103,6 @@ namespace DomainLayer.BaseClasses
         public void RemoveCity(City city) 
         {
             CheckCityForNull(city);
-            bool isInCapitals = _capitals.Contains(city);
-            if (isInCapitals)
-                throw new ArgumentException($"city: {city.Name} is in capitals. pls remove from capital first.");
             bool isRemoved = _cities.Remove(city);
             if (!isRemoved)
             {

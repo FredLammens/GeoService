@@ -41,6 +41,8 @@ namespace DataLayer.Repositories
         {
             if (!context.Continents.Any(c => c.Id == continentId))
                 throw new Exception($"continent with is: {continentId} not in database.");
+            if (GetContinent(continentId).Countries.Count > 0)
+                throw new Exception("Continent still has countries. Pls remove these first.");
             context.Continents.Remove(context.Continents.Single(c => c.Id == continentId));
         }
 

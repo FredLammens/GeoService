@@ -1,8 +1,11 @@
+using DataLayer;
+using DomainLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace GeoService
 {
@@ -10,7 +13,10 @@ namespace GeoService
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            //Configuration = configuration;
+            var builder = new ConfigurationBuilder().AddConfiguration(Configuration)
+                .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "Properties", "launchSettings.json"));
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -19,6 +25,8 @@ namespace GeoService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IDomainController>(new DomainController(new UnitOfWork(new GeoServiceContext("MainDB"))));
+            services.AddSingleton<IConfiguration>(Configuration);//url
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
