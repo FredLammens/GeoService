@@ -19,13 +19,13 @@ namespace DataLayer.BaseClasses
         {
             Continent continent = new Continent(dContinent.Name)
             {
-                Id = dContinent.Id,
+                Id = (uint)dContinent.Id,
             };
             if (dContinent.Countries.Count > 0)
             {
                 foreach (DCountry dCountry in dContinent.Countries)
                 {
-                    Country toAdd = new Country(dCountry.Name, dCountry.Population, dCountry.Surface, continent) { Id = dCountry.Id };
+                    Country toAdd = new Country(dCountry.Name, dCountry.Population, dCountry.Surface, continent) { Id = (uint)dCountry.Id };
                     continent.AddCountry(toAdd);
                 }
             }
@@ -33,21 +33,21 @@ namespace DataLayer.BaseClasses
         }
         public static Country FromDCountryToCountry(DCountry dCountry)
         {
-            Country country = new Country(dCountry.Name, dCountry.Population, dCountry.Surface, FromDContinentToContinent(dCountry.Continent)) { Id = dCountry.Id };
+            Country country = new Country(dCountry.Name, dCountry.Population, dCountry.Surface, FromDContinentToContinent(dCountry.Continent)) { Id = (uint)dCountry.Id };
             // Todo: Check if city isnt in capital catch?
-            if (dCountry.Capitals.Count > 0)
+            if (dCountry.Capitals != null)
             {
                 foreach (DCity dCity in dCountry.Capitals)
                 {
-                    City toAdd = new City(dCity.Name, dCity.Population, country) { Id = dCity.Id, CapitalFrom = country };
+                    City toAdd = new City(dCity.Name, dCity.Population, country) { Id = (uint)dCity.Id, CapitalFrom = country };
                     country.AddCaptial(toAdd);
                 }
             }
-            if (dCountry.Cities.Count > 0)
+            if (dCountry.Cities != null)
             {
                 foreach (DCity dCity in dCountry.Cities)
                 {
-                    City toAdd = new City(dCity.Name, dCity.Population, country) { Id = dCity.Id };
+                    City toAdd = new City(dCity.Name, dCity.Population, country) { Id = (uint)dCity.Id };
                     country.AddCity(toAdd);
                 }
             }
@@ -55,7 +55,7 @@ namespace DataLayer.BaseClasses
         }
         public static City FromDCityToCity(DCity dCity)
         {
-            City city = new City(dCity.Name, dCity.Population, FromDCountryToCountry(dCity.BelongsTo)) { Id = dCity.Id };
+            City city = new City(dCity.Name, dCity.Population, FromDCountryToCountry(dCity.BelongsTo)) { Id = (uint)dCity.Id };
             if (dCity.CapitalFrom != null)
                 city.CapitalFrom = FromDCountryToCountry(dCity.CapitalFrom);
             return city;
@@ -102,6 +102,7 @@ namespace DataLayer.BaseClasses
                 Name = continent.Name,
                 Population = continent.Population
             };
+            dContinent.Id = (int)continent.Id;
             return dContinent;
         }
         public static DCountry FromCountryToDCountry(Country country)
@@ -113,6 +114,7 @@ namespace DataLayer.BaseClasses
                 Surface = country.Surface,
                 Continent = FromContinentToDContinent(country.Continent)
             };
+            dataCountry.Id = (int)country.Id;
             return dataCountry;
         }
         public static DCity FromCityToDCity(City city)

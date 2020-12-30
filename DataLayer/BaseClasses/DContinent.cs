@@ -11,7 +11,7 @@ namespace DataLayer.BaseClasses
         /// Data continent Id
         /// </summary>
         [Key]
-        public uint Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Data continent name

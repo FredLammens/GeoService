@@ -22,7 +22,8 @@ namespace DomainLayer.IRepositories
         /// Updates continent in database with given continent object
         /// </summary>
         /// <param name="continent">updated continent</param>
-        void UpdateContinent(Continent continent);
+        /// <param name="continentId">id of continent to update</param>
+        void UpdateContinent(Continent continent, int continentId);
         /// <summary>
         /// Checks if continent is in database.
         /// </summary>

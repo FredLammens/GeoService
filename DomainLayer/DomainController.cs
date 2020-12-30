@@ -32,7 +32,7 @@ namespace DomainLayer
             //if continent not in DB add 
             if (!uow.Continents.isInContinents(continentId))
             {
-                uow.Continents.UpdateContinent(continent);
+                uow.Continents.UpdateContinent(continent,continentId);
                 uow.Complete();
             }
             else //if continent in DB update

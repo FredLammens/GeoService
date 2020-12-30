@@ -44,13 +44,13 @@ namespace DataLayer.Repositories
             context.Continents.Remove(context.Continents.Single(c => c.Id == continentId));
         }
 
-        public void UpdateContinent(Continent continent)
+        public void UpdateContinent(Continent continent, int continentId)
         {
-            if (!context.Continents.Any(c => c.Name == continent.Name))
-                throw new Exception($"Continent: {continent.Name} not in database.");
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in database.");
             DContinent continentToUpdate =  context.Continents
                                             .Include(continent => continent.Countries)
-                                            .Single(c => c.Name == continent.Name);
+                                            .Single(c => c.Id == continentId);
             continentToUpdate.Name = continent.Name;
         }
 
@@ -70,7 +70,7 @@ namespace DataLayer.Repositories
                                            .Single(c => c.Id == continentId);
             DCountry country = continent.Countries.SingleOrDefault(c => c.Id == countryId);
             if (country == null)
-                throw new Exception($"country with id: {countryId} not in DB.");
+                throw new Exception($"Country with id: {countryId} not in DB.");
             return Mapper.FromDCountryToCountry(country);
         }
 
@@ -93,10 +93,9 @@ namespace DataLayer.Repositories
                                            .Include(continent => continent.Countries)
                                            .Single(c => c.Id == continentId);
             DCountry countryToUpdate = continent.Countries.SingleOrDefault(c => c.Id == countryId);
-            if (country == null)
+            if (countryToUpdate == null)
                 throw new Exception($"country with id: {countryId} not in DB.");
-            countryToUpdate.Id = country.Id;
-            countryToUpdate.Name = country.Name;
+            countryToUpdate.Id = (int)country.Id;
             countryToUpdate.Population = country.Population;
             countryToUpdate.Surface = country.Surface;
         }
@@ -118,6 +117,8 @@ namespace DataLayer.Repositories
                                            .Include(continent => continent.Countries)
                                            .Single(c => c.Id == continentId);
             DCountry country = continent.Countries.SingleOrDefault(c => c.Id == countryId);
+            if (country == null)
+                throw new Exception($"country with id: {countryId} not in DB.");
             continent.Countries.Remove(country);
         }
         #endregion

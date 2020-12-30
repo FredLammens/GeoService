@@ -12,7 +12,7 @@ namespace DataLayer.BaseClasses
         /// Data Id of city
         /// </summary>
         [Required]
-        public uint Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// Data Name of city
         /// </summary>

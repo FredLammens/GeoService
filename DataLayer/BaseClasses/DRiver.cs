@@ -11,7 +11,7 @@ namespace DataLayer.BaseClasses
         /// Data Id of river
         /// </summary>
         [Required]
-        public uint Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// Data Name of River
         /// </summary>
