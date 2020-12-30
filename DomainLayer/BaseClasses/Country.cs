@@ -93,7 +93,7 @@ namespace DomainLayer.BaseClasses
             //check population city doesnt exceed population country
             if (!IsPopulationCorrect(city.Population))
                 throw new Exception($"population: {city.Population} would exceed country's population: {Population}.");
-            city.Id = (uint)(_cities.Count + 1);
+            city.Id = (uint)(_cities.Count);
             _cities.Add(city);
         }
         /// <summary>
@@ -134,7 +134,7 @@ namespace DomainLayer.BaseClasses
             }
             else 
             {
-                _cities.Add(toAddToCities);
+                AddCity(toAddToCities);
             }
         }
         /// <summary>
@@ -160,7 +160,7 @@ namespace DomainLayer.BaseClasses
             bool isInRivers = _rivers.Contains(river);
             if (isInRivers)
                 throw new ArgumentException($"{river.Name} is already in {this.Name}");
-            river.Id = (uint)(_rivers.Count + 1);
+            river.Id = (uint)(_rivers.Count);
             _rivers.Add(river);
         }
         /// <summary>

@@ -57,7 +57,7 @@ namespace DomainLayer.BaseClasses
             bool inCountries = _countries.Contains(country);
             if (inCountries)
                 throw new ArgumentException("country already added.");
-            country.Id = (uint)_countries.Count + 1;
+            country.Id = (uint)_countries.Count;
             _countries.Add(country);
             Population += country.Population;
         }
