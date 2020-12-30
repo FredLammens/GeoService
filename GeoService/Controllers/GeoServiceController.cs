@@ -1,4 +1,6 @@
 ﻿using DomainLayer;
+using DomainLayer.BaseClasses;
+using GeoService.BaseClasses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GeoService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Continent")]
     [ApiController]
     public class GeoServiceController : ControllerBase
     {
@@ -22,7 +24,20 @@ namespace GeoService.Controllers
             this.dc = dc;
         }
         #region Continent
-
+        [HttpPost]
+        public ActionResult<RContinentOut> PostContinent([FromBody] RContinentIn rContinentIn) 
+        {
+            try
+            {
+                Continent toAdd = Mapper.FromRContinentInToContinent(rContinentIn);
+                int id = dc.AddContinent(toAdd);
+                return Mapper.FromContinentToRContinentOut(dc.GetContinent(id));
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message); //TODO: change to 404 exception
+            }
+        }
         #endregion
         #region Country
         #endregion
