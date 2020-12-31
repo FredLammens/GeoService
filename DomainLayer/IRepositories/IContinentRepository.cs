@@ -19,6 +19,12 @@ namespace DomainLayer.IRepositories
         /// <param name="id">id of continent to get</param>
         Continent GetContinent(int id);
         /// <summary>
+        /// Gets continent from database with continent name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Continent GetContinentByName(string name);
+        /// <summary>
         /// Updates continent in database with given continent object
         /// </summary>
         /// <param name="continent">updated continent</param>

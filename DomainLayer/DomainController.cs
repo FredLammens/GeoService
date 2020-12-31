@@ -13,11 +13,12 @@ namespace DomainLayer
             this.uow = uow;
         }
 
-        public int AddContinent(Continent continent) 
+        public Continent AddContinent(Continent continent) 
         {
             uow.Continents.AddContinent(continent);
             uow.Complete();
-            return (int)continent.Id;
+            Continent toReturn = uow.Continents.GetContinentByName(continent.Name);
+            return toReturn;
         }
         public Continent GetContinent(int continentId) 
         {

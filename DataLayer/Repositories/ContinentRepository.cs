@@ -36,7 +36,17 @@ namespace DataLayer.Repositories
                 throw new Exception($"Continent: {continent.Name} already in database.");
             context.Continents.Add(dContinent);
         }
-
+        public Continent GetContinentByName(string name) 
+        {
+            if (!context.Continents.Any(c => c.Name == name))
+                throw new Exception($"Continent: {name} not in DB.");
+            DContinent dContinent = context.Continents
+                                           .AsNoTracking()
+                                           .Include(continent => continent.Countries)
+                                           .AsNoTracking()
+                                           .Single(c => c.Name == name);
+            return Mapper.FromDContinentToContinent(dContinent);
+        }
         public void DeleteContinent(int continentId)
         {
             if (!context.Continents.Any(c => c.Id == continentId))

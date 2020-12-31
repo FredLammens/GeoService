@@ -12,7 +12,7 @@ namespace DomainLayer
         /// </summary>
         /// <param name="continent">continent to add</param>
         /// <returns>id of continent added</returns>
-        public int AddContinent(Continent continent);
+        public Continent AddContinent(Continent continent);
         /// <summary>
         /// Gets continent from database
         /// </summary>

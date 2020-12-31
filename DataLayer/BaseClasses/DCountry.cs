@@ -39,10 +39,12 @@ namespace DataLayer.BaseClasses
         /// <summary>
         /// Data Cities of country
         /// </summary>
+        [NotMapped]
         public List<DCity> Cities { get; set; }
         /// <summary>
         /// Data capitals of country
         /// </summary>
+        [NotMapped]
         public List<DCity> Capitals { get; set; }
 
         /// <summary>

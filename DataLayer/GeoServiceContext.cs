@@ -11,14 +11,6 @@ namespace DataLayer
         /// </summary>
         public DbSet<DContinent> Continents { get; set; }
         /// <summary>
-        /// DbSet that contains countries from database
-        /// </summary>
-        public DbSet<DCountry> Countries { get; set; }
-        /// <summary>
-        /// Dbset that contains cities from database
-        /// </summary>
-        public DbSet<DCity> Cities { get; set; }
-        /// <summary>
         /// DbSet that contains rivers from database
         /// </summary>
         public DbSet<DRiver> Rivers { get; set; }
@@ -34,7 +26,7 @@ namespace DataLayer
         /// Constructor that sets connectionstring
         /// </summary>
         /// <param name="db"></param>
-        public GeoServiceContext(string db ) : base()
+        public GeoServiceContext(string db = "MainDB") : base()
         {
             SetConnectionString(db);
         }
@@ -45,7 +37,7 @@ namespace DataLayer
         private void SetConnectionString(string db = "MainDB") 
         {
             var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json", optional: false);
+            builder.AddJsonFile("dataappsettings.json", optional: false);
             var configuration = builder.Build();
             switch (db)
             {

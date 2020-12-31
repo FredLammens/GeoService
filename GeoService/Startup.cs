@@ -13,8 +13,8 @@ namespace GeoService
     {
         public Startup(IConfiguration configuration)
         {
-            //Configuration = configuration;
-            var builder = new ConfigurationBuilder().AddConfiguration(Configuration)
+            Configuration = configuration;
+            var builder = new ConfigurationBuilder().AddConfiguration(configuration)
                 .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "Properties", "launchSettings.json"));
             Configuration = builder.Build();
         }

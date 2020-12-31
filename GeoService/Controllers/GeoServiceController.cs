@@ -1,4 +1,5 @@
-﻿using DomainLayer;
+﻿using DataLayer;
+using DomainLayer;
 using DomainLayer.BaseClasses;
 using GeoService.BaseClasses;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +31,8 @@ namespace GeoService.Controllers
             try
             {
                 Continent toAdd = Mapper.FromRContinentInToContinent(rContinentIn);
-                int id = dc.AddContinent(toAdd);
-                return Mapper.FromContinentToRContinentOut(dc.GetContinent(id));
+                Continent toReturn = dc.AddContinent(toAdd);
+                return Mapper.FromContinentToRContinentOut(toReturn);
             }
             catch (Exception ex) 
             {
