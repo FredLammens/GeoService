@@ -131,6 +131,8 @@ namespace DataLayer.Repositories
             DContinent continent = context.Continents
                                            .Include(continent => continent.Countries)
                                            .Single(c => c.Id == continentId);
+            if (continent.Countries.Any(c => c.Name == country.Name))
+                throw new Exception($"Country: {country.Name} already in DB.");
             DCountry toAdd = Mapper.FromCountryToDCountry(country);
             if (toAdd.Id == 0)
                 toAdd.Id = continent.Countries.Count;

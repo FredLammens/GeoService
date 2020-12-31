@@ -104,7 +104,7 @@ namespace GeoService.Controllers
             {
                 Continent continent = dc.GetContinent(continentId);
                 Country added = dc.AddCountry(continentId,Mapper.RCountryInToCountry(rCountryIn,continent));
-                return CreatedAtAction(nameof(GetCountry), new { id = added.Id });
+                return CreatedAtAction(nameof(GetCountry), new { continentId = continentId,countryId = added.Id });
             }
             catch (Exception ex) 
             {

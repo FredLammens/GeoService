@@ -54,9 +54,6 @@ namespace DomainLayer.BaseClasses
         public void AddCountry(Country country) 
         {
             CheckIfSameContinent(country);
-            bool inCountries = _countries.Contains(country);
-            if (inCountries)
-                throw new ArgumentException("country already added.");
             country.Id = (uint)_countries.Count;
             _countries.Add(country);
             Population += country.Population;
@@ -68,9 +65,6 @@ namespace DomainLayer.BaseClasses
         public void DeleteCountry(Country country)
         {
             CheckCountryForNull(country);
-            bool hasCities = (country.Cities.Count > 0);
-            if (hasCities)
-                throw new Exception($"{country.Name} still has cities.");
             bool removed = _countries.Remove(country);
             if (removed == false) 
             {
