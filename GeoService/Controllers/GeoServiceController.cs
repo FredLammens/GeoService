@@ -25,6 +25,18 @@ namespace GeoService.Controllers
             this.dc = dc;
         }
         #region Continent
+        [HttpGet("{id}")]
+        public ActionResult<RContinentOut> GetContinent(int id) 
+        {
+            try
+            {
+                return Ok(Mapper.FromContinentToRContinentOut(dc.GetContinent(id)));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
         [HttpPost]
         public ActionResult<RContinentOut> PostContinent([FromBody] RContinentIn rContinentIn) 
         {
@@ -32,11 +44,42 @@ namespace GeoService.Controllers
             {
                 Continent toAdd = Mapper.FromRContinentInToContinent(rContinentIn);
                 Continent toReturn = dc.AddContinent(toAdd);
-                return Mapper.FromContinentToRContinentOut(toReturn);
+                return CreatedAtAction(nameof(GetContinent),new { id = toReturn.Id }, Mapper.FromContinentToRContinentOut(toReturn));
             }
             catch (Exception ex) 
             {
-                return NotFound(ex.Message); //TODO: change to 404 exception
+                return NotFound(ex.Message);
+            }
+        }
+        [HttpPut("{id}")]
+        public ActionResult<RContinentOut> PutContinent(int id, [FromBody] RContinentIn rContinentIn) 
+        {
+            try
+            {    
+                if (dc.IsInContinents(id))
+                {
+                    Continent updatedContinent = dc.UpdateContinent(id, Mapper.FromRContinentInToContinent(rContinentIn));
+                    return Ok(updatedContinent);
+                }
+                    Continent addedContinent = dc.AddContinent(Mapper.FromRContinentInToContinent(rContinentIn));
+                    return CreatedAtAction(nameof(GetContinent), new { id = id }, Mapper.FromContinentToRContinentOut(addedContinent));
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteClient(int id) 
+        {
+            try
+            {
+                dc.DeleteContinent(id);
+                return NoContent();
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message);
             }
         }
         #endregion

@@ -30,7 +30,13 @@ namespace DomainLayer
         /// </summary>
         /// <param name="continentId">continent id to update</param>
         /// <param name="continent">continent object to update with</param>
-        public void UpsertContinent(int continentId, Continent continent);
+        public Continent UpdateContinent(int continentId, Continent continent);
+        /// <summary>
+        /// Checks if continent is in database
+        /// </summary>
+        /// <param name="continentId">continentId</param>
+        /// <returns></returns>
+        public bool IsInContinents(int continentId);
         /// <summary>
         /// Add's country to database
         /// </summary>

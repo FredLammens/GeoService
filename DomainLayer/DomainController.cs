@@ -29,19 +29,15 @@ namespace DomainLayer
             uow.Continents.DeleteContinent(continentId);
             uow.Complete();
         }
-        public void UpsertContinent(int continentId, Continent continent) 
+        public Continent UpdateContinent(int continentId, Continent continent) 
         {
-            //if continent not in DB add 
-            if (!uow.Continents.isInContinents(continentId))
-            {
                 uow.Continents.UpdateContinent(continent,continentId);
                 uow.Complete();
-            }
-            else //if continent in DB update
-            { 
-                uow.Continents.AddContinent(continent);
-                uow.Complete();
-            }      
+            return uow.Continents.GetContinentByName(continent.Name);
+        }
+        public bool IsInContinents(int continentId) 
+        {
+            return uow.Continents.isInContinents(continentId);
         }
         public void AddCountry(int continentId, Country country) 
         {
