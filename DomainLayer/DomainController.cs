@@ -12,7 +12,7 @@ namespace DomainLayer
         {
             this.uow = uow;
         }
-
+        #region Continent
         public Continent AddContinent(Continent continent) 
         {
             uow.Continents.AddContinent(continent);
@@ -39,10 +39,13 @@ namespace DomainLayer
         {
             return uow.Continents.isInContinents(continentId);
         }
-        public void AddCountry(int continentId, Country country) 
+        #endregion
+        #region Country
+        public Country AddCountry(int continentId, Country country) 
         {
             uow.Continents.AddCountry(continentId, country);
             uow.Complete();
+            return uow.Continents.GetCountryByName(continentId, country.Name);
         }
         public Country GetCountry(int continentId, int countryId) 
         {
@@ -53,20 +56,17 @@ namespace DomainLayer
             uow.Continents.DeleteCountry(continentId,countryId);
             uow.Complete();
         }
-        public void UpsertCountry(int continentId, int countryId, Country country) 
+        public Country UpdateCountry(int continentId, int countryId, Country country) 
         {
-            //if Country is not in DB add 
-            if (!uow.Continents.isInCountry(continentId, countryId))
-            {
-                AddCountry(continentId, country);
-                uow.Complete();
-            }
-            else //if Country is in DB update
-            {
                 uow.Continents.UpdateCountry(continentId, countryId, country);
                 uow.Complete();
-            }
+                return uow.Continents.GetCountryByName(continentId, country.Name); 
         }
+        public bool IsInCountry(int continentId, int countryId) 
+        {
+            return uow.Continents.isInCountry(continentId, countryId);
+        }
+        #endregion
         public void AddCity(int continentId, int countryId, City city) 
         {
             //Country country = GetCountry(continentId, countryId);

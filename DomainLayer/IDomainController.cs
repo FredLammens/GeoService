@@ -35,14 +35,15 @@ namespace DomainLayer
         /// Checks if continent is in database
         /// </summary>
         /// <param name="continentId">continentId</param>
-        /// <returns></returns>
+        /// <returns>true if in continent</returns>
         public bool IsInContinents(int continentId);
         /// <summary>
         /// Add's country to database
         /// </summary>
         /// <param name="continentId">continent id to add country to </param>
         /// <param name="country">country object to add to database</param>
-        public void AddCountry(int continentId,Country country);
+        /// <returns>Country object added</returns>
+        public Country AddCountry(int continentId,Country country);
         /// <summary>
         /// Gets country from database
         /// </summary>
@@ -63,7 +64,14 @@ namespace DomainLayer
         /// <param name="continentId">continent id to update country from</param>
         /// <param name="countryId">country id to be updated </param>
         /// <param name="country">country object to update</param>
-        public void UpsertCountry(int continentId, int countryId, Country country);
+        public Country UpdateCountry(int continentId, int countryId, Country country);
+        /// <summary>
+        /// checks if country with countryId is in database
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="countryId">country id</param>
+        /// <returns>true if in db</returns>
+        public bool IsInCountry(int continentId, int countryId);
         /// <summary>
         /// Adds city to database
         /// </summary>

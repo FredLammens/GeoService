@@ -28,5 +28,9 @@ namespace GeoService.BaseClasses
             rOut.Countries = countriesToAdd;
             return rOut;
         }
+        public static Country RCountryInToCountry(RCountryIn rCountryIn, Continent continent) 
+        {
+            return new Country(rCountryIn.Name, (uint)rCountryIn.Population, rCountryIn.Surface, continent);
+        }
     }
 }

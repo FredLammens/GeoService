@@ -84,6 +84,65 @@ namespace GeoService.Controllers
         }
         #endregion
         #region Country
+        [HttpGet("{continentId}/Country/{countryId}")]
+        public ActionResult<RCountryOut> GetCountry(int continentId, int countryId) 
+        {
+            try
+            {
+                return Ok(dc.GetCountry(continentId, countryId));
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost("{continentId}/Country")]
+        public ActionResult<RContinentOut> PostCountry(int continentId, [FromBody] RCountryIn rCountryIn) 
+        {
+            try
+            {
+                Continent continent = dc.GetContinent(continentId);
+                Country added = dc.AddCountry(continentId,Mapper.RCountryInToCountry(rCountryIn,continent));
+                return CreatedAtAction(nameof(GetCountry), new { id = added.Id });
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message);
+            }
+        }
+        [HttpPut("{continentId}/Country/{countryId}")]
+        public IActionResult PutCountry(int continentId, int countryId, [FromBody] RCountryIn rCountryIn) 
+        {
+            try
+            {
+                if (dc.IsInCountry(continentId, countryId))
+                {
+                    Country updated = dc.UpdateCountry(continentId, countryId, Mapper.RCountryInToCountry(rCountryIn, dc.GetContinent(continentId)));
+                    return CreatedAtAction(nameof(GetCountry), new { id = updated.Id });
+                }
+                Continent continent = dc.GetContinent(continentId);
+                Country added = dc.AddCountry(continentId, Mapper.RCountryInToCountry(rCountryIn, continent));
+                return CreatedAtAction(nameof(GetCountry), new { id = added.Id });
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message);
+            }
+        }
+        [HttpDelete("{continentId}/Country/{countryId}")]
+        public IActionResult DeleteCountry(int continentId, int countryId) 
+        {
+            try
+            {
+                dc.DeleteCountry(continentId, countryId);
+                return NoContent();
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex);
+            }
+        }
         #endregion
     }
 }

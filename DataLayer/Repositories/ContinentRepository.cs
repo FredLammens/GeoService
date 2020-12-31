@@ -85,7 +85,19 @@ namespace DataLayer.Repositories
                 throw new Exception($"Country with id: {countryId} not in DB.");
             return Mapper.FromDCountryToCountry(country);
         }
-
+        public Country GetCountryByName(int continentId, string name)
+        {
+            if (!context.Continents.Any(c => c.Id == continentId))
+                throw new Exception($"Continent with id: {continentId} not in DB.");
+            DContinent continent = context.Continents
+                                           .Include(continent => continent.Countries)
+                                           .AsNoTracking()
+                                           .Single(c => c.Id == continentId);
+            DCountry country = continent.Countries.SingleOrDefault(c => c.Name == name);
+            if (country == null)
+                throw new Exception($"Country: {name} not in DB.");
+            return Mapper.FromDCountryToCountry(country);
+        }
         public bool isInCountry(int continentId, int countryId)
         {
             if (!context.Continents.Any(c => c.Id == continentId))

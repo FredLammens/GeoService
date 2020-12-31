@@ -21,7 +21,7 @@ namespace DomainLayer.IRepositories
         /// <summary>
         /// Gets continent from database with continent name
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">continent name</param>
         /// <returns></returns>
         Continent GetContinentByName(string name);
         /// <summary>
@@ -41,15 +41,22 @@ namespace DomainLayer.IRepositories
         /// </summary>
         /// <param name="continentId">id of continent to remove</param>
         void DeleteContinent(int continentId);
+        #endregion
+        #region Country
         /// <summary>
         /// Get's country from country id from continent gotten with id
         /// </summary>
         /// <param name="continentId">continent id to get country from</param>
         /// <param name="countryId">country id to get</param>
         /// <returns></returns>
-        #endregion
-        #region Country
         Country GetCountry(int continentId, int countryId);
+        /// <summary>
+        /// Get's country with countryname from continent gotten with id
+        /// </summary>
+        /// <param name="continentId">continent id</param>
+        /// <param name="name">country name</param>
+        /// <returns>Country object</returns>
+        Country GetCountryByName(int continentId, string name);
         /// <summary>
         /// checks if country is part of continent
         /// </summary>
