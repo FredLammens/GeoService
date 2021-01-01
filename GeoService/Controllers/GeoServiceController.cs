@@ -112,19 +112,20 @@ namespace GeoService.Controllers
                 return NotFound(ex.Message);
             }
         }
-        [HttpPut("{continentId}/Country/{countryId}")]
-        public ActionResult<RCountryOut> PutCountry(int continentId, int countryId, [FromBody] RCountryIn rCountryIn) 
+        [HttpPut("{continentId}/Country/{id}")]
+        public ActionResult<RCountryOut> PutCountry(int continentId, int id, [FromBody] RCountryIn rCountryIn) 
         {
             try
             {
-                if (dc.IsInCountry(continentId, countryId))
+                if (dc.IsInCountry(continentId, id))
                 {
-                    Country updated = dc.UpdateCountry(continentId, countryId, Mapper.FromRCountryInToCountry(rCountryIn, dc.GetContinent(continentId)));
+                    Country updated = dc.UpdateCountry(continentId, id, Mapper.FromRCountryInToCountry(rCountryIn, dc.GetContinent(continentId)));
                     return Ok(Mapper.FromCountryToRCountryOut(updated));
                 }
                 Continent continent = dc.GetContinent(continentId);
                 Country added = dc.AddCountry(continentId, Mapper.FromRCountryInToCountry(rCountryIn, continent));
-                return CreatedAtAction(nameof(GetCountry), new { continentId, id = added.Id },Mapper.FromCountryToRCountryOut(added));
+                int countryId = (int)added.Id;
+                return CreatedAtAction(nameof(GetCountry), new { continentId, countryId },Mapper.FromCountryToRCountryOut(added));
             }
             catch (Exception ex) 
             {
