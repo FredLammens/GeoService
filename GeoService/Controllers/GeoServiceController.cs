@@ -98,13 +98,14 @@ namespace GeoService.Controllers
         }
 
         [HttpPost("{continentId}/Country")]
-        public ActionResult<RContinentOut> PostCountry(int continentId, [FromBody] RCountryIn rCountryIn) 
+        public ActionResult<RCountryOut> PostCountry(int continentId, [FromBody] RCountryIn rCountryIn) 
         {
             try
             {
                 Continent continent = dc.GetContinent(continentId);
-                Country added = dc.AddCountry(continentId,Mapper.RCountryInToCountry(rCountryIn,continent));
-                return CreatedAtAction(nameof(GetCountry), new { continentId = continentId,countryId = added.Id });
+                Country added = dc.AddCountry(continentId,Mapper.FromRCountryInToCountry(rCountryIn,continent));
+                int countryId = (int)added.Id;
+                return CreatedAtAction(nameof(GetCountry), new { continentId, countryId },Mapper.FromCountryToRCountryOut(added));
             }
             catch (Exception ex) 
             {
@@ -112,18 +113,18 @@ namespace GeoService.Controllers
             }
         }
         [HttpPut("{continentId}/Country/{countryId}")]
-        public IActionResult PutCountry(int continentId, int countryId, [FromBody] RCountryIn rCountryIn) 
+        public ActionResult<RCountryOut> PutCountry(int continentId, int countryId, [FromBody] RCountryIn rCountryIn) 
         {
             try
             {
                 if (dc.IsInCountry(continentId, countryId))
                 {
-                    Country updated = dc.UpdateCountry(continentId, countryId, Mapper.RCountryInToCountry(rCountryIn, dc.GetContinent(continentId)));
-                    return CreatedAtAction(nameof(GetCountry), new { id = updated.Id });
+                    Country updated = dc.UpdateCountry(continentId, countryId, Mapper.FromRCountryInToCountry(rCountryIn, dc.GetContinent(continentId)));
+                    return Ok(Mapper.FromCountryToRCountryOut(updated));
                 }
                 Continent continent = dc.GetContinent(continentId);
-                Country added = dc.AddCountry(continentId, Mapper.RCountryInToCountry(rCountryIn, continent));
-                return CreatedAtAction(nameof(GetCountry), new { id = added.Id });
+                Country added = dc.AddCountry(continentId, Mapper.FromRCountryInToCountry(rCountryIn, continent));
+                return CreatedAtAction(nameof(GetCountry), new { continentId, id = added.Id },Mapper.FromCountryToRCountryOut(added));
             }
             catch (Exception ex) 
             {
