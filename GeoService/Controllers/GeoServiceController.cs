@@ -5,6 +5,7 @@ using GeoService.BaseClasses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace GeoService.Controllers
         /// represents a type used for storage and methods of repository
         /// </summary>
         private IDomainController dc;
-        private string apiUrl;
+        private readonly string apiUrl;
+
 
         public GeoServiceController(IDomainController dc, IConfiguration iconfiguation)
         {

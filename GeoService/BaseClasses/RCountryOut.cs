@@ -10,7 +10,6 @@ namespace GeoService.BaseClasses
     public class RCountryOut
     {
         [JsonPropertyName("countryId")]
-        [Url]
         public string CountryId { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -19,7 +18,6 @@ namespace GeoService.BaseClasses
         [JsonPropertyName("surface")]
         public float Surface { get; set; }
         [JsonPropertyName("continentId")]
-        [Url]
         public string ContinentId { get; set; }
     }
 }

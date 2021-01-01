@@ -1,5 +1,6 @@
 using DataLayer;
 using DomainLayer;
+using GeoService.Middelware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,8 @@ namespace GeoService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseLogMiddelware();
 
             app.UseHttpsRedirection();
 
