@@ -4,6 +4,7 @@ using DomainLayer.BaseClasses;
 using GeoService.BaseClasses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,12 @@ namespace GeoService.Controllers
         /// represents a type used for storage and methods of repository
         /// </summary>
         private IDomainController dc;
+        private string apiUrl;
 
-        public GeoServiceController(IDomainController dc)
+        public GeoServiceController(IDomainController dc, IConfiguration iconfiguation)
         {
             this.dc = dc;
+            apiUrl = iconfiguation.GetValue<string>("profiles:GeoService:applicationUrl");
         }
         #region Continent
         [HttpGet("{id}")]
@@ -30,7 +33,7 @@ namespace GeoService.Controllers
         {
             try
             {
-                return Ok(Mapper.FromContinentToRContinentOut(dc.GetContinent(id)));
+                return Ok(Mapper.FromContinentToRContinentOut(dc.GetContinent(id),apiUrl));
             }
             catch (Exception ex)
             {
@@ -44,7 +47,7 @@ namespace GeoService.Controllers
             {
                 Continent toAdd = Mapper.FromRContinentInToContinent(rContinentIn);
                 Continent toReturn = dc.AddContinent(toAdd);
-                return CreatedAtAction(nameof(GetContinent),new { id = toReturn.Id }, Mapper.FromContinentToRContinentOut(toReturn));
+                return CreatedAtAction(nameof(GetContinent),new { id = toReturn.Id }, Mapper.FromContinentToRContinentOut(toReturn,apiUrl));
             }
             catch (Exception ex) 
             {
@@ -59,10 +62,10 @@ namespace GeoService.Controllers
                 if (dc.IsInContinents(id))
                 {
                     Continent updatedContinent = dc.UpdateContinent(id, Mapper.FromRContinentInToContinent(rContinentIn));
-                    return Ok(updatedContinent);
+                    return Ok(Mapper.FromContinentToRContinentOut(updatedContinent,apiUrl));
                 }
                     Continent addedContinent = dc.AddContinent(Mapper.FromRContinentInToContinent(rContinentIn));
-                    return CreatedAtAction(nameof(GetContinent), new { id = id }, Mapper.FromContinentToRContinentOut(addedContinent));
+                    return CreatedAtAction(nameof(GetContinent), new { id = id }, Mapper.FromContinentToRContinentOut(addedContinent, apiUrl));
             }
             catch (Exception ex) 
             {
@@ -89,7 +92,7 @@ namespace GeoService.Controllers
         {
             try
             {
-                return Ok(dc.GetCountry(continentId, countryId));
+                return Ok(Mapper.FromCountryToRCountryOut(dc.GetCountry(continentId, countryId),apiUrl));
             }
             catch (Exception ex) 
             {
@@ -105,7 +108,7 @@ namespace GeoService.Controllers
                 Continent continent = dc.GetContinent(continentId);
                 Country added = dc.AddCountry(continentId,Mapper.FromRCountryInToCountry(rCountryIn,continent));
                 int countryId = (int)added.Id;
-                return CreatedAtAction(nameof(GetCountry), new { continentId, countryId },Mapper.FromCountryToRCountryOut(added));
+                return CreatedAtAction(nameof(GetCountry), new { continentId, countryId },Mapper.FromCountryToRCountryOut(added,apiUrl));
             }
             catch (Exception ex) 
             {
@@ -120,12 +123,12 @@ namespace GeoService.Controllers
                 if (dc.IsInCountry(continentId, id))
                 {
                     Country updated = dc.UpdateCountry(continentId, id, Mapper.FromRCountryInToCountry(rCountryIn, dc.GetContinent(continentId)));
-                    return Ok(Mapper.FromCountryToRCountryOut(updated));
+                    return Ok(Mapper.FromCountryToRCountryOut(updated, apiUrl));
                 }
                 Continent continent = dc.GetContinent(continentId);
                 Country added = dc.AddCountry(continentId, Mapper.FromRCountryInToCountry(rCountryIn, continent));
                 int countryId = (int)added.Id;
-                return CreatedAtAction(nameof(GetCountry), new { continentId, countryId },Mapper.FromCountryToRCountryOut(added));
+                return CreatedAtAction(nameof(GetCountry), new { continentId, countryId },Mapper.FromCountryToRCountryOut(added, apiUrl));
             }
             catch (Exception ex) 
             {

@@ -12,10 +12,10 @@ namespace GeoService.BaseClasses
         {
             return new Continent(rContinentIn.Name);
         }
-        public static RContinentOut FromContinentToRContinentOut(Continent continent) 
+        public static RContinentOut FromContinentToRContinentOut(Continent continent, string apiUrl) 
         {
             RContinentOut rOut = new RContinentOut() {
-                Id = continent.Id.ToString(),
+                Id = apiUrl + "api/Continent/" + continent.Id,
                 Name = continent.Name,
                 Population = (long)continent.Population
             };
@@ -23,7 +23,7 @@ namespace GeoService.BaseClasses
             List<string> countriesToAdd = new List<string>();
             foreach (Country country in continent.Countries)
             {
-                countriesToAdd.Add(Constants.apiUrl + country.Id);
+                countriesToAdd.Add(rOut.Id + "/Country/" +  country.Id);
             }
             rOut.Countries = countriesToAdd;
             return rOut;
@@ -32,10 +32,10 @@ namespace GeoService.BaseClasses
         {
             return new Country(rCountryIn.Name, (uint)rCountryIn.Population, rCountryIn.Surface, continent);
         }
-        public static RCountryOut FromCountryToRCountryOut(Country country) 
+        public static RCountryOut FromCountryToRCountryOut(Country country, string apiUrl) 
         {
-            RCountryOut rOut = new RCountryOut() {Name = country.Name,Population = (int)country.Population, Surface =  country.Surface, ContinentId = country.Continent.Id.ToString() };
-            rOut.CountryId = country.Id.ToString();
+            RCountryOut rOut = new RCountryOut() {Name = country.Name,Population = (int)country.Population, Surface =  country.Surface, ContinentId = apiUrl + "api/Continent/"+ country.Continent.Id };
+            rOut.CountryId = rOut.ContinentId +"/Country/"+ country.Id;
             return rOut;
         }
     }
