@@ -119,6 +119,8 @@ namespace DataLayer.Repositories
             DCountry countryToUpdate = continent.Countries.SingleOrDefault(c => c.Id == countryId);
             if (countryToUpdate == null)
                 throw new Exception($"country with id: {countryId} not in DB.");
+            if (continent.Countries.Any(c => c.Id == country.Id))
+                throw new Exception($"Country with id: {country.Id} already in DB.");
             countryToUpdate.Id = (int)country.Id;
             countryToUpdate.Population = country.Population;
             countryToUpdate.Surface = country.Surface;
